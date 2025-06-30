@@ -4,10 +4,13 @@
   box-sizing: border-box;
 }
 
+html {  
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 table {
   border-spacing: 0 10px;
   font-size: 1.1rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: #333;
 }
 
@@ -17,4 +20,25 @@ thead tr {
 
 .total-fila {
   font-weight: bold;
+}
+
+.nueva-comida {
+  padding: 20px 10px;
+  font-size: 1.1rem;
+}
+
+.eliminar-btn {
+  visibility: hidden;
+}
+
+.tabla-comida:hover .eliminar-btn {
+  visibility: visible;
+}
+
+.quitar-btn {
+  visibility: hidden;
+}
+
+td:hover .quitar-btn {
+  visibility: visible;
 }
