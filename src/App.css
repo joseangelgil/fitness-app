@@ -3,3 +3,18 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+table {
+  border-spacing: 0 10px;
+  font-size: 1.1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #333;
+}
+
+thead tr {
+  background-color: lightblue;
+}
+
+.total-fila {
+  font-weight: bold;
+}
