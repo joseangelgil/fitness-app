@@ -2,7 +2,7 @@ import { Stack } from '@mui/material'
 import { useState } from 'react'
 import { Button, Typography } from '@mui/material'
 
-const DietTable = ({ name, time, eliminarComida }) => {
+const DietTable = ({ name, time, eliminarComida, setDisplay, setComidaOIngrediente }) => {
 
   const [ingredientes, setIngredientes] = useState([
     {name: 'Queso', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'},
@@ -55,7 +55,7 @@ const DietTable = ({ name, time, eliminarComida }) => {
             )
           })}
           <tr className='total-fila'>
-            <td><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}}>+ añadir ingrediente</Button></td>
+            <td><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} onClick={() => {setDisplay(); setComidaOIngrediente('ingrediente')}}>+ añadir ingrediente</Button></td>
             <td>{calculateTotal('kcal')}</td>
             <td>{calculateTotal('hc')}</td>
             <td>{calculateTotal('prot')}</td>

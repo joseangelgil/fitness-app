@@ -13,6 +13,8 @@ function Diet() {
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
+  const [comidaOIngrediente, setComidaOIngrediente] = useState('')
+  const [cantidadNuevoIngrediente, setCantidadNuevoIngrediente] = useState('')
 
 
   const changeActiveButton = (weekDay) => {
@@ -62,14 +64,14 @@ function Diet() {
             <Button key={weekDay} value={weekDay} onClick={() => changeActiveButton(weekDay)} variant={chooseVariant(weekDay)} sx={{ margin: '5px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>{weekDay}</Button>
           )
         })}
-        <Button variant='text' sx={{display: 'block', mt: '15px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}} onClick={() => setDisplay()}>+ Añadir comida</Button>
+        <Button variant='text' sx={{display: 'block', mt: '15px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}} onClick={() => {setDisplay(); setComidaOIngrediente('comida')}}>+ Añadir comida</Button>
         {comidas.map(comida => {
           return (
-            <DietTable key={comida.name} name={comida.name} time={comida.time} eliminarComida={eliminarComida} />
+            <DietTable key={comida.name} name={comida.name} time={comida.time} eliminarComida={eliminarComida} setDisplay={setDisplay} setComidaOIngrediente={setComidaOIngrediente}/>
           )
         })}
       </Box>
-      <Modal modal={modal} añadirComida={añadirComida} setDisplay={setDisplay} nombreNuevaComida={nombreNuevaComida} horaNuevaComida={horaNuevaComida} setHoraNuevaComida={setHoraNuevaComida} setNombreNuevaComida={setNombreNuevaComida}/>
+      <Modal modal={modal} añadirComida={añadirComida} setDisplay={setDisplay} nombreNuevaComida={nombreNuevaComida} horaNuevaComida={horaNuevaComida} setHoraNuevaComida={setHoraNuevaComida} setNombreNuevaComida={setNombreNuevaComida} comidaOIngrediente={comidaOIngrediente} cantidadNuevoIngrediente={cantidadNuevoIngrediente} setCantidadNuevoIngrediente={setCantidadNuevoIngrediente}/>
     </Box>
   )
 }
