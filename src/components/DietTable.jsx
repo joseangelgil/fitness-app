@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material'
 import { useState } from 'react'
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 
 const DietTable = ({ name, time, eliminarComida }) => {
 
@@ -24,28 +24,29 @@ const DietTable = ({ name, time, eliminarComida }) => {
   }
 
   return (
-    <Stack className='tabla-comida'>
+    <Stack className='tabla-comida' sx={{ fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>
       <table style={{ textAlign: 'center'}}>
         <thead>
-          <tr>
+          <tr style={{ cursor: 'pointer'}} onClick={() => {eliminarComida(name)}}>
             <th style={{width: '30%'}}>
-              <Stack direction='row'>
-                <p>{name}</p>
-                <p>{time}</p>
+              <Stack direction='row' justifyContent='space-evenly'>
+                <Typography variant='p'>{name}</Typography>
+                <Typography variant='p'>{time}</Typography>
               </Stack>
             </th>
             <th>Kcal</th>
             <th>Hidratos de Carbono (g)</th>
             <th>Proteinas (g)</th>
             <th>Grasas (g)</th>
-            <th style={{backgroundColor: 'white'}}><div className='eliminar-btn'><Button variant='contained' color='error' onClick={() => {eliminarComida(name)}}>Eliminar</Button></div></th>
+            {/* <th style={{backgroundColor: 'white', border: 'none'}}><div className='eliminar-btn'><Button sx={{ fontSize: { lg: '1.1rem', xs: '0.5rem'}}} variant='contained' color='error' onClick={() => {eliminarComida(name)}}>Eliminar</Button></div></th> */}
           </tr>
         </thead>
         <tbody>
           {ingredientes.map(ingrediente => {
             return (
-              <tr key={ingrediente.name}>
-                <td>{ingrediente.cantidad}g {ingrediente.name} <span className='quitar-btn'><Button variant='text' color='error' sx={{fontSize: '0.7rem'}} onClick={() => {quitarIngrediente(ingrediente.name)}}>quitar</Button></span></td>
+              <tr key={ingrediente.name} onClick={() => {quitarIngrediente(ingrediente.name)}} style={{ cursor: 'pointer'}}>
+                <td>{ingrediente.cantidad}g {ingrediente.name}</td>
+                {/* <td>{ingrediente.cantidad}g {ingrediente.name} <span className='quitar-btn'><Button variant='text' color='error' sx={{fontSize: { lg: '0.7rem', xs: '0.5rem'}}} onClick={() => {quitarIngrediente(ingrediente.name)}}>quitar</Button></span></td> */}
                 <td>{ingrediente.kcal}</td>
                 <td>{ingrediente.hc}</td>
                 <td>{ingrediente.prot}</td>
@@ -54,7 +55,7 @@ const DietTable = ({ name, time, eliminarComida }) => {
             )
           })}
           <tr className='total-fila'>
-            <td><Button variant='text'>+ añadir ingrediente</Button></td>
+            <td><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}}>+ añadir ingrediente</Button></td>
             <td>{calculateTotal('kcal')}</td>
             <td>{calculateTotal('hc')}</td>
             <td>{calculateTotal('prot')}</td>

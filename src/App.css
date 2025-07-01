@@ -10,12 +10,12 @@ html {
 
 table {
   border-spacing: 0 10px;
-  font-size: 1.1rem;
   color: #333;
 }
 
 thead tr {
   background-color: lightblue;
+  height: 40px;
 }
 
 .total-fila {
