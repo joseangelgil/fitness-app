@@ -1,8 +1,12 @@
-import { Box, Stack, Button, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import TarjetaNuevaComida from './TarjetaNuevaComida'
 import TarjetaNuevoIngrediente from './TarjetaNuevoIngrediente'
+import { useGlobalContext } from '../utils/context'
 
-const Modal = ({ modal, añadirComida, setDisplay, nombreNuevaComida, setNombreNuevaComida, horaNuevaComida, setHoraNuevaComida, comidaOIngrediente, cantidadNuevoIngrediente, setCantidadNuevoIngrediente}) => {
+const Modal = () => {
+
+  const { comidaOIngrediente, modal } = useGlobalContext()
+
   return (
     <Box sx={{
         position: 'absolute',
@@ -14,8 +18,8 @@ const Modal = ({ modal, añadirComida, setDisplay, nombreNuevaComida, setNombreN
         backgroundColor: 'rgba(0,0,0,0.5)'
         }} 
         display= {modal}>
-          {comidaOIngrediente === 'comida' && <TarjetaNuevaComida añadirComida={añadirComida} setDisplay={setDisplay} nombreNuevaComida={nombreNuevaComida} setNombreNuevaComida={setNombreNuevaComida} horaNuevaComida={horaNuevaComida} setHoraNuevaComida={setHoraNuevaComida}/>}
-          {comidaOIngrediente === 'ingrediente' && <TarjetaNuevoIngrediente añadirComida={añadirComida} setDisplay={setDisplay} cantidadNuevoIngrediente={cantidadNuevoIngrediente} setCantidadNuevoIngrediente={setCantidadNuevoIngrediente}/>}
+          {comidaOIngrediente === 'comida' && <TarjetaNuevaComida />}
+          {comidaOIngrediente === 'ingrediente' && <TarjetaNuevoIngrediente />}
         </Box>
   )
 }

@@ -1,6 +1,10 @@
 import { Stack, Typography, Button } from '@mui/material'
+import { useGlobalContext } from '../utils/context'
 
-const TarjetaNuevoIngrediente = ({ añadirComida, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente }) => {
+const TarjetaNuevoIngrediente = () => {
+
+  const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente } = useGlobalContext()
+
   return (
     <Stack justifyContent= 'space-between' alignItems='center' sx={{
       width: '360px',
