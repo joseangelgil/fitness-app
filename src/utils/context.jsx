@@ -58,6 +58,14 @@ const AppProvider = ({ children }) => {
 
     return total
   }
+  
+  const añadirIngrediente = (name= 'Nuevo ingrediente', cantidad, kcal, hc, prot, gras) => {
+    const nuevoIngrediente = {name: name, cantidad: cantidad, kcal: cantidad * kcal, hc: cantidad * hc, prot: cantidad * prot, gras: cantidad * gras}
+    const ingredientesActualizados = [...ingredientes, nuevoIngrediente]
+
+    setIngredientes(ingredientesActualizados)
+    setDisplay()
+  } 
 
   const quitarIngrediente = (name) => {
     const nuevosIngredientes = ingredientes.filter(ingrediente => ingrediente.name !== name)
@@ -88,6 +96,7 @@ const AppProvider = ({ children }) => {
       añadirComida,
       eliminarComida,
       calculateTotal,
+      añadirIngrediente,
       quitarIngrediente,
     }}>
       {children}
