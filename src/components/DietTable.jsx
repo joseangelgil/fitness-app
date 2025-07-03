@@ -7,7 +7,7 @@ const DietTable = ({ comidaId, name, time, comida }) => {
   const { eliminarComida, setDisplay, setComidaOIngrediente, quitarIngrediente, calculateTotal, setActiveFood } = useGlobalContext()
 
   return (
-    <Stack className='tabla-comida' sx={{ fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>
+    <Stack sx={{ fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>
       <table style={{ textAlign: 'center'}}>
         <thead>
           <tr style={{ cursor: 'pointer'}} onClick={() => {eliminarComida(comidaId)}}>
@@ -35,12 +35,12 @@ const DietTable = ({ comidaId, name, time, comida }) => {
                 </tr>
               )
           }))}
-          <tr className='total-fila'>
-            <td><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comida.id} onClick={(e) => {setActiveFood(e.target.value), setDisplay(); setComidaOIngrediente('ingrediente')}}>+ añadir ingrediente</Button></td>
-            <td>{calculateTotal(comida, 'kcal') || ''}</td>
-            <td>{calculateTotal(comida, 'hc') || ''}</td>
-            <td>{calculateTotal(comida, 'prot') || ''}</td>
-            <td>{calculateTotal(comida, 'gras') || ''}</td>
+          <tr>
+            <th><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comida.id} onClick={(e) => {setActiveFood(e.target.value), setDisplay(); setComidaOIngrediente('ingrediente')}}>+ añadir ingrediente</Button></th>
+            <th>{calculateTotal(comida, 'kcal') || ''}</th>
+            <th>{calculateTotal(comida, 'hc') || ''}</th>
+            <th>{calculateTotal(comida, 'prot') || ''}</th>
+            <th>{calculateTotal(comida, 'gras') || ''}</th>
           </tr>
         </tbody>
       </table>

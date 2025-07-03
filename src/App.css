@@ -17,12 +17,3 @@ thead tr {
   background-color: lightblue;
   height: 40px;
 }
-
-.total-fila {
-  font-weight: bold;
-}
-
-.nueva-comida {
-  padding: 20px 10px;
-  font-size: 1.1rem;
-}
