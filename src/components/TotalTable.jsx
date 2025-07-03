@@ -14,21 +14,21 @@ const TotalTable = () => {
           </tr>
         </thead>
          <tbody>
-          <tr>
+          <tr height='30px'>
             <th style={{width: '30%'}}>Suma diaria total</th>
             <th>Kcal</th>
             <th>Hidratos de Carbono (g)</th>
             <th>Proteinas (g)</th>
             <th>Grasas (g)</th>
           </tr>
-          <tr>
+          <tr height='30px'>
             <th style={{width: '30%'}}>Objetivo diario</th>
             <th>Kcal</th>
             <th>Hidratos de Carbono (g)</th>
             <th>Proteinas (g)</th>
             <th>Grasas (g)</th>
           </tr>
-          <tr>
+          <tr height='30px'>
             <th style={{width: '30%'}}>Necesario para cumplir objetivo</th>
             <th>Kcal</th>
             <th>Hidratos de Carbono (g)</th>
