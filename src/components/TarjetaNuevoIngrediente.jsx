@@ -33,6 +33,10 @@ const TarjetaNuevoIngrediente = () => {
       <Typography variant='p'>{macros.hc}g HC</Typography>
       <Typography variant='p'>{macros.prot}g Proteinas</Typography>
       <Typography variant='p'>{macros.gras}g Grasas</Typography>
+      <Typography variant='p'>{macros.kcal} Kcal</Typography>
+      <Typography variant='p'>{macros.hc}g HC</Typography>
+      <Typography variant='p'>{macros.prot}g Proteinas</Typography>
+      <Typography variant='p'>{macros.gras}g Grasas</Typography>
       <input className='nueva-comida' style={{width: '150px'}} type="number" min='0' placeholder='Cantidad en gramos' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
       <Stack direction='row' justifyContent='space-evenly' gap='50px'>
         <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {setDisplay()}}>Cancelar</Button>
