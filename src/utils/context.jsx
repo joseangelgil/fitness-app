@@ -6,13 +6,14 @@ const AppContext = createContext()
 const AppProvider = ({ children }) => {
 
   const [data, setData] = useState([
-    {name: 'Queso', kcal: '210', hc: '2', p: '15', g: '18'},
-    {name: 'Espaguetis', kcal: '120', hc: '50', p: '7', g: '11'},
-    {name: 'Bacon', kcal: '250', hc: '0', p: '12', g: '22'},
-    {name: 'Huevo', kcal: '56', hc: '0', p: '7', g: '15'},
-    {name: 'Tomate', kcal: '56', hc: '0', p: '7', g: '15'},
-    {name: 'Arroz', kcal: '56', hc: '0', p: '7', g: '15'},
-    {name: 'Melon', kcal: '56', hc: '0', p: '7', g: '15'}
+    {id: uuidv4(), name: 'Queso', kcal: '210', hc: '2', p: '15', g: '18'},
+    {id: uuidv4(), name: 'Espaguetis', kcal: '120', hc: '50', p: '7', g: '11'},
+    {id: uuidv4(), name: 'Bacon', kcal: '250', hc: '0', p: '12', g: '22'},
+    {id: uuidv4(), name: 'Huevo', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), name: 'Tomate', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), name: 'Arroz', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), name: 'Melon', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
   ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
   const [modal, setModal] = useState('none')
@@ -40,12 +41,7 @@ const AppProvider = ({ children }) => {
       id: uuidv4(),  
       name: 'Almuerzo', 
       time: '10:00', 
-      ingredientes: [
-        {id: uuidv4(), name: 'Queso', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},
-        {id: uuidv4(), name: 'Espaguetis', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},
-        {id: uuidv4(), name: 'Bacon', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
-      ],
+      ingredientes: [],
       macros: {}
       },
       {
@@ -59,26 +55,16 @@ const AppProvider = ({ children }) => {
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
-      ingredientes: [
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
-      ],
+      ingredientes: [],
       macros: {}
       }
     ],
-    'Martes': [{
-      id: uuidv4(),
-      name: 'Comida', 
-      time: '14:00',
-      ingredientes: [],
-      macros: {}
-    }],
+    'Martes': [],
     'Miercoles': [{
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
-      ingredientes: [
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
-      ],
+      ingredientes: [],
       macros: {}
     }],    
     'Jueves': [{
@@ -92,10 +78,7 @@ const AppProvider = ({ children }) => {
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
-      ingredientes: [
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},      
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
-      ],
+      ingredientes: [],
       macros: {}
     }],
     'Sábado': [{
@@ -306,7 +289,6 @@ const AppProvider = ({ children }) => {
       }
       return nuevoMenu
     })
-
   }, [])
 
   useEffect(() => {

@@ -6,8 +6,6 @@ const TarjetaModificarIngrediente = () => {
   const { menu, activeWeekDay, modificarIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, ingredienteSeleccionado, quitarIngrediente, data } = useGlobalContext()
 
   let macros = {}
-
-  // MODIFICAR MACROS PARA QUE NO DEPENDAN DE ESTE CALCULO SI NO DE SU PROPIA INFORMACION
   
   menu[activeWeekDay].forEach(item => {
     if(item.id === comidaSeleccionada) {

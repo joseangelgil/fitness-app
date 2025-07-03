@@ -1,12 +1,14 @@
 import { Stack, Typography, Button, Box } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const TarjetaNuevoIngrediente = () => {
 
   const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, data } = useGlobalContext()
   const [search, setSearch] = useState('')
+  const [results, setResults] = useState([])
   const [showDropdown, setShowDropdown] = useState(false)
+  const [macros, setMacros] = useState({})
 
   const renderDropdown = () => {
     return (
@@ -28,21 +30,37 @@ const TarjetaNuevoIngrediente = () => {
         overflowY: 'auto',
         margin: 0
       }}>
-        {data.map(item => {
+        {results.map(item => {
           return (
-            <li style={{margin: '5px', listStyle: 'none'}} onClick={() => {setSearch(item.name)}}>{item.name}</li>
+            <li key={item.id} style={{margin: '5px', listStyle: 'none'}} onClick={() => {setSearch(item.name); setShowDropdown(false)}}>{item.name}</li>
           )
         })}
       </ul>
     )
   }
 
-  const macros = {
-    kcal: 700,
-    hc: 41,
-    p: 12,
-    g: 8
-  }
+  useEffect(() => {
+    const searching = data.filter(item => item.name.startsWith(search))
+    if(searching.length && searching[0].name !== search && search) {
+      setResults(searching)
+      setShowDropdown(true)
+    }
+    else {
+      setResults([])
+      setShowDropdown(false)
+    }
+
+    if(data.find(item => item.name === search.trim())) {
+      setMacros(prevMacros => (
+        {...prevMacros, 
+          kcal: data.find(item => item.name === search.trim()).kcal,
+          hc: data.find(item => item.name === search.trim()).hc,
+          p: data.find(item => item.name === search.trim()).p,
+          g: data.find(item => item.name === search.trim()).g, 
+        }
+      ))      
+    }
+  }, [search])  
 
   return (
     <Stack justifyContent= 'space-between' alignItems='center' sx={{
@@ -63,12 +81,27 @@ const TarjetaNuevoIngrediente = () => {
         <input style={{padding: '20px 10px', fontSize: '1.1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
         {renderDropdown()}
       </Box>
-      <Typography variant='p'>Macronutrientes por 100g</Typography>
-      <Typography variant='p'>{macros.kcal} Kcal</Typography>
-      <Typography variant='p'>{macros.hc}g HC</Typography>
-      <Typography variant='p'>{macros.p}g Proteinas</Typography>
-      <Typography variant='p'>{macros.g}g Grasas</Typography>
-      <input style={{width: '150px', padding: '20px 10px', fontSize: '1.1rem'}} type="number" min='0' placeholder='Cantidad en gramos' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
+      {data.find(item => item.name === search.trim()) ? data.map((item, index) => {
+        if(item.name === search.trim()) {
+          return (
+            <Stack key={index} justifyContent= 'space-between' alignItems='center' height='40%'>
+              <Typography variant='p'>Macronutrientes por 100g</Typography>
+              <Typography variant='p'>{item.kcal} Kcal</Typography>
+              <Typography variant='p'>{item.hc}g HC</Typography>
+              <Typography variant='p'>{item.p}g Proteinas</Typography>
+              <Typography variant='p'>{item.g}g Grasas</Typography>
+            </Stack> 
+          )
+        }}) :
+            <Stack justifyContent= 'space-between' alignItems='center' height='40%'>
+              <Typography variant='p'>Macronutrientes por 100g</Typography>
+              <Typography variant='p'>Kcal</Typography>
+              <Typography variant='p'>HC</Typography>
+              <Typography variant='p'>Proteinas</Typography>
+              <Typography variant='p'>Grasas</Typography>
+            </Stack>  
+      }
+      <input style={{width: '150px', padding: '20px 10px', fontSize: '1.1rem'}} type="number" min='0' placeholder='Cantidad en g' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
       <Stack direction='row' justifyContent='space-evenly' gap='50px'>
         <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {setDisplay()}}>Cancelar</Button>
         <Button variant='outlined' sx={{padding: '10px 20px'}} onClick={(e) => {
@@ -76,7 +109,8 @@ const TarjetaNuevoIngrediente = () => {
             alert('Por favor, introduce una cantidad para continuar.'); 
             return
           }  
-          añadirIngrediente(comidaSeleccionada, 'Nuevo Ingrediente', cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
+          añadirIngrediente(comidaSeleccionada, search, cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
+          setSearch('')
           setDisplay()
           }}>Aceptar</Button>
       </Stack>

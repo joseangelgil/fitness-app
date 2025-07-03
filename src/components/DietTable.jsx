@@ -53,10 +53,10 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
           }))}
           <tr>
             <th><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setComidaOIngrediente('nuevoIngrediente'); setDisplay();}}>+ añadir ingrediente</Button></th>
-            <th>{macros?.kcal || ''}</th>
-            <th>{macros?.hc || ''}</th>
-            <th>{macros?.p || ''}</th>
-            <th>{macros?.g || ''}</th>
+            <th>{macros?.kcal || 0}</th>
+            <th>{macros?.hc || 0}</th>
+            <th>{macros?.p || 0}</th>
+            <th>{macros?.g || 0}</th>
           </tr>
         </tbody>
       </table>
