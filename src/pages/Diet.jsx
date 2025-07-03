@@ -8,7 +8,7 @@ const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'
 
 function Diet() {
 
-  const { setDisplay, setComidaOIngrediente, comidas, changeActiveButton, chooseVariant } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay } = useGlobalContext()
 
   return(
     <Box style={{padding: '10px'}}>
@@ -24,11 +24,12 @@ function Diet() {
           )
         })}
         <Button variant='text' sx={{display: 'block', mt: '15px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}} onClick={() => {setDisplay(); setComidaOIngrediente('comida')}}>+ Añadir comida</Button>
-        {comidas.map(comida => {
-          return (
-            <DietTable key={comida.name} name={comida.name} time={comida.time} />
-          )
-        })}
+        {menu[activeWeekDay].map(comida => {
+            return (
+              <DietTable key={comida.id} comidaId={comida.id} name={comida.name} time={comida.time} comida={comida}/>
+            )
+          }
+        )}
       </Box>
       <Modal />
     </Box>

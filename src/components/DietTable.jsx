@@ -2,15 +2,15 @@ import { Stack } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import { Button, Typography } from '@mui/material'
 
-const DietTable = ({ name, time }) => {
+const DietTable = ({ comidaId, name, time, comida }) => {
 
-  const { eliminarComida, setDisplay, setComidaOIngrediente, quitarIngrediente, ingredientes, calculateTotal } = useGlobalContext()
+  const { eliminarComida, setDisplay, setComidaOIngrediente, quitarIngrediente, calculateTotal, setActiveFood } = useGlobalContext()
 
   return (
     <Stack className='tabla-comida' sx={{ fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>
       <table style={{ textAlign: 'center'}}>
         <thead>
-          <tr style={{ cursor: 'pointer'}} onClick={() => {eliminarComida(name)}}>
+          <tr style={{ cursor: 'pointer'}} onClick={() => {eliminarComida(comidaId)}}>
             <th style={{width: '30%'}}>
               <Stack direction='row' justifyContent='space-evenly'>
                 <Typography variant='p'>{name}</Typography>
@@ -24,23 +24,23 @@ const DietTable = ({ name, time }) => {
           </tr>
         </thead>
         <tbody>
-          {ingredientes.map(ingrediente => {
-            return (
-              <tr key={ingrediente.name} onClick={() => {quitarIngrediente(ingrediente.name)}} style={{ cursor: 'pointer'}}>
-                <td>{ingrediente.cantidad}g {ingrediente.name}</td>
-                <td>{ingrediente.kcal}</td>
-                <td>{ingrediente.hc}</td>
-                <td>{ingrediente.prot}</td>
-                <td>{ingrediente.gras}</td>
-              </tr>
-            )
-          })}
+          {comida.ingredientes.map((ingrediente => {
+              return (
+                <tr key={ingrediente.id} onClick={() => {quitarIngrediente(comidaId, ingrediente.id)}} style={{ cursor: 'pointer'}}>
+                  <td>{ingrediente.cantidad}g {ingrediente.name}</td>
+                  <td>{ingrediente.kcal}</td>
+                  <td>{ingrediente.hc}</td>
+                  <td>{ingrediente.prot}</td>
+                  <td>{ingrediente.gras}</td>
+                </tr>
+              )
+          }))}
           <tr className='total-fila'>
-            <td><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} onClick={() => {setDisplay(); setComidaOIngrediente('ingrediente')}}>+ añadir ingrediente</Button></td>
-            <td>{calculateTotal('kcal')}</td>
-            <td>{calculateTotal('hc')}</td>
-            <td>{calculateTotal('prot')}</td>
-            <td>{calculateTotal('gras')}</td>
+            <td><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comida.id} onClick={(e) => {setActiveFood(e.target.value), setDisplay(); setComidaOIngrediente('ingrediente')}}>+ añadir ingrediente</Button></td>
+            <td>{calculateTotal(comida, 'kcal') || ''}</td>
+            <td>{calculateTotal(comida, 'hc') || ''}</td>
+            <td>{calculateTotal(comida, 'prot') || ''}</td>
+            <td>{calculateTotal(comida, 'gras') || ''}</td>
           </tr>
         </tbody>
       </table>

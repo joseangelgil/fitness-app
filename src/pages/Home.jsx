@@ -17,7 +17,7 @@ function Home() {
     }}>
       <img src={Icon} alt="Icon" style={{width: '10%', margin: '0 auto'}}/>
       <Typography variant='h1'>Welcome to Fitness App!</Typography>    
-      <Typography variant='p'>Select your profile:</Typography>   
+      <Typography variant='p'>Select profile:</Typography>   
       <ul>
         <li><Link className='link' to='/profile'>Profile1</Link></li>
         <li><Link className='link' to='/profile'>Profile2</Link></li>
@@ -25,7 +25,7 @@ function Home() {
         <li><Link className='link' to='/profile'>Profile4</Link></li>
       </ul>
       <Typography variant='p'>or</Typography>
-      <Typography variant='p' style={{cursor: 'pointer'}}><Link className='link' to='/profile'>Create a new one</Link></Typography>
+      <Typography variant='p' sx={{cursor: 'pointer'}}><Link className='link' to='/profile'>Create a new one</Link></Typography>
     </Stack>
   )
 }

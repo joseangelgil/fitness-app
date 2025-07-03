@@ -1,11 +1,12 @@
 import Navbar from '../components/Navbar'
+import { Box, Typography } from '@mui/material'
 
 function Profile() {
   return(
-    <div style={{padding: '10px'}}>
+    <Box sx={{padding: '10px'}}>
       <Navbar />
-      <h1>Welcome to Profile!</h1>
-    </div>
+      <Typography variant='h1'>Welcome to Profile!</Typography>
+    </Box>
   )
 }
 

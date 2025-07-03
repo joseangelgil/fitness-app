@@ -24,7 +24,7 @@ const TarjetaNuevaComida = () => {
       <input className='nueva-comida' type="text" placeholder='Nombre de la comida' value={nombreNuevaComida} onChange={(e) => setNombreNuevaComida(e.target.value)} />
       <input className='nueva-comida' type="text" placeholder='Hora de la comida (Formato, 00:00)' value={horaNuevaComida} onChange={(e) => setHoraNuevaComida(e.target.value)} />
       <Stack direction='row' justifyContent='space-evenly'>
-        <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {setDisplay()}}>Cerrar</Button>
+        <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {setDisplay()}}>Cancelar</Button>
         <Button variant='outlined' sx={{padding: '10px 20px'}} onClick={() => añadirComida()}>Aceptar</Button>
       </Stack>
     </Stack>
