@@ -1,12 +1,16 @@
 import { Stack } from '@mui/material'
+import { useGlobalContext } from '../utils/context'
 
 const TotalTable = () => {
+
+  const { cantidadObjetivo, sumaDiariaTotal, activeWeekDay } = useGlobalContext()
+
   return (
     <Stack sx={{ fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>
       <table style={{ textAlign: 'center'}}>
         <thead>
           <tr>
-            <th style={{width: '30%'}}>Macronutrientes Totales</th>
+            <th style={{width: '30%'}}>Macros Totales</th>
             <th>Kcal</th>
             <th>Hidratos de Carbono (g)</th>
             <th>Proteinas (g)</th>
@@ -15,25 +19,25 @@ const TotalTable = () => {
         </thead>
          <tbody>
           <tr height='30px'>
-            <th style={{width: '30%'}}>Suma diaria total</th>
-            <th>Kcal</th>
-            <th>Hidratos de Carbono (g)</th>
-            <th>Proteinas (g)</th>
-            <th>Grasas (g)</th>
+            <td >Objetivo diario</td>
+            <td>{cantidadObjetivo.kcal}</td>
+            <td>{cantidadObjetivo.hc}</td>
+            <td>{cantidadObjetivo.p}</td>
+            <td>{cantidadObjetivo.g}</td>
           </tr>
           <tr height='30px'>
-            <th style={{width: '30%'}}>Objetivo diario</th>
-            <th>Kcal</th>
-            <th>Hidratos de Carbono (g)</th>
-            <th>Proteinas (g)</th>
-            <th>Grasas (g)</th>
+            <td>Suma diaria total</td>
+            <td>{sumaDiariaTotal[activeWeekDay].kcal}</td>
+            <td>{sumaDiariaTotal[activeWeekDay].hc}</td>
+            <td>{sumaDiariaTotal[activeWeekDay].p}</td>
+            <td>{sumaDiariaTotal[activeWeekDay].g}</td>
           </tr>
           <tr height='30px'>
-            <th style={{width: '30%'}}>Necesario para cumplir objetivo</th>
-            <th>Kcal</th>
-            <th>Hidratos de Carbono (g)</th>
-            <th>Proteinas (g)</th>
-            <th>Grasas (g)</th>
+            <th>Necesario hasta objetivo</th>
+            <th>{cantidadObjetivo.kcal - sumaDiariaTotal[activeWeekDay].kcal}</th>
+            <th>{cantidadObjetivo.hc - sumaDiariaTotal[activeWeekDay].hc}</th>
+            <th>{cantidadObjetivo.p - sumaDiariaTotal[activeWeekDay].p}</th>
+            <th>{cantidadObjetivo.g - sumaDiariaTotal[activeWeekDay].g}</th>
           </tr>
         </tbody>
       </table>

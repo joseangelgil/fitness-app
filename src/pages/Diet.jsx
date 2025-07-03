@@ -27,7 +27,7 @@ function Diet() {
         <Button variant='text' sx={{display: 'block', mt: '15px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}} onClick={() => {setDisplay(); setComidaOIngrediente('comida')}}>+ Añadir comida</Button>
         {menu[activeWeekDay].map(comida => {
             return (
-              <DietTable key={comida.id} comidaId={comida.id} name={comida.name} time={comida.time} comida={comida}/>
+              <DietTable key={comida.id} comidaId={comida.id} name={comida.name} time={comida.time} ingredientes={comida.ingredientes} macros={comida.macros}/>
             )
           }
         )}        

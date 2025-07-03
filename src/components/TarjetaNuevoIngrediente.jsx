@@ -8,8 +8,8 @@ const TarjetaNuevoIngrediente = () => {
   const macros = {
     kcal: 700,
     hc: 41,
-    prot: 12,
-    gras: 8
+    p: 12,
+    g: 8
   }
 
   return (
@@ -31,13 +31,9 @@ const TarjetaNuevoIngrediente = () => {
       <Typography variant='p'>Macronutrientes por 100g</Typography>
       <Typography variant='p'>{macros.kcal} Kcal</Typography>
       <Typography variant='p'>{macros.hc}g HC</Typography>
-      <Typography variant='p'>{macros.prot}g Proteinas</Typography>
-      <Typography variant='p'>{macros.gras}g Grasas</Typography>
-      <Typography variant='p'>{macros.kcal} Kcal</Typography>
-      <Typography variant='p'>{macros.hc}g HC</Typography>
-      <Typography variant='p'>{macros.prot}g Proteinas</Typography>
-      <Typography variant='p'>{macros.gras}g Grasas</Typography>
-      <input className='nueva-comida' style={{width: '150px'}} type="number" min='0' placeholder='Cantidad en gramos' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
+      <Typography variant='p'>{macros.p}g Proteinas</Typography>
+      <Typography variant='p'>{macros.g}g Grasas</Typography>
+      <input style={{width: '150px', padding: '20px 10px', fontSize: '1.1rem'}} type="number" min='0' placeholder='Cantidad en gramos' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
       <Stack direction='row' justifyContent='space-evenly' gap='50px'>
         <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {setDisplay()}}>Cancelar</Button>
         <Button variant='outlined' sx={{padding: '10px 20px'}} onClick={(e) => {
@@ -45,7 +41,7 @@ const TarjetaNuevoIngrediente = () => {
             alert('Por favor, introduce una cantidad para continuar.'); 
             return
           }  
-          añadirIngrediente(activeFood, 'Nuevo Ingrediente', cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.prot, macros.gras); 
+          añadirIngrediente(activeFood, 'Nuevo Ingrediente', cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
           setDisplay()
           }}>Aceptar</Button>
       </Stack>

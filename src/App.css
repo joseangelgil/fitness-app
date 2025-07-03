@@ -10,10 +10,16 @@ html {
 
 table {
   border-spacing: 0 10px;
-  color: #333;
+  color: #444;
 }
 
 thead tr {
   background-color: lightblue;
   height: 40px;
+}
+
+@media (min-width: 600px) {
+    th {
+    min-width: 80px;
+  }
 }

@@ -12,6 +12,17 @@ const AppProvider = ({ children }) => {
   const [comidaOIngrediente, setComidaOIngrediente] = useState('')
   const [cantidadNuevoIngrediente, setCantidadNuevoIngrediente] = useState('')
   const [activeFood, setActiveFood] = useState('')
+  const [cantidadObjetivo, setCantidadObjetivo] = useState({kcal: 2680, hc: 415, p: 120, g: 60})
+  const [sumaDiariaTotal, setSumaDiariaTotal] = useState(
+    {
+      'Lunes': {kcal: 1200, hc: 100, p: 35, g: 75},
+      'Martes': {kcal: 1200, hc: 100, p: 35, g: 75},
+      'Miercoles': {kcal: 1200, hc: 100, p: 35, g: 75},
+      'Jueves': {kcal: 1200, hc: 100, p: 35, g: 75},
+      'Viernes': {kcal: 1200, hc: 100, p: 35, g: 75},
+      'Sábado': {kcal: 1200, hc: 100, p: 35, g: 75},
+      'Domingo': {kcal: 1200, hc: 100, p: 35, g: 75},
+    })
   const [menu, setMenu] = useState(
     {
     'Lunes': [
@@ -20,64 +31,77 @@ const AppProvider = ({ children }) => {
       name: 'Almuerzo', 
       time: '10:00', 
       ingredientes: [
-        {id: uuidv4(), name: 'Queso', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'},
-        {id: uuidv4(), name: 'Espaguetis', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'},
-        {id: uuidv4(), name: 'Bacon', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'},
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'}
-      ]
+        {id: uuidv4(), name: 'Queso', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},
+        {id: uuidv4(), name: 'Espaguetis', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},
+        {id: uuidv4(), name: 'Bacon', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},
+        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
+      ],
+      macros: {}
       },
       {
       id: uuidv4(),
       name: 'Comida', 
       time: '14:00',
-      ingredientes: []
+      ingredientes: [],
+      macros: {}
       },
       {
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
       ingredientes: [
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'}]
+        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
+      ],
+      macros: {}
       }
     ],
     'Martes': [{
       id: uuidv4(),
       name: 'Comida', 
       time: '14:00',
-      ingredientes: []
+      ingredientes: [],
+      macros: {}
     }],
     'Miercoles': [{
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
-      ingredientes: []
+      ingredientes: [
+        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
+      ],
+      macros: {}
     }],    
     'Jueves': [{
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
-      ingredientes: []
+      ingredientes: [],
+      macros: {}
     }],
     'Viernes': [{
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
       ingredientes: [
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'},      
-        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', prot: '7', gras: '15'}]
+        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'},      
+        {id: uuidv4(), name: 'Huevo', cantidad: '80', kcal: '750', hc: '20', p: '7', g: '15'}
+      ],
+      macros: {}
     }],
     'Sábado': [{
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
-      ingredientes: []
+      ingredientes: [],
+      macros: {}
     }],
     'Domingo': [
       {
       id: uuidv4(),
       name: 'Cena', 
       time: '21:00',
-      ingredientes: []
+      ingredientes: [],
+      macros: {}
       }
     ]
     })
@@ -120,22 +144,29 @@ const AppProvider = ({ children }) => {
     setMenu(prevMenu => ({...prevMenu, [activeWeekDay]: nuevasComidas}))
   }
 
-  const calculateTotal = (comida, macroNutriente) => {
-    let total = 0;
-    comida.ingredientes.forEach(ingrediente => total += +ingrediente[macroNutriente])
+  const calculateTotal = (comida) => {
 
-    return total
+    const macrosTotales = {
+        kcal: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.kcal), 0),
+        hc: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.hc), 0),
+        p: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.p), 0),
+        g: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.g), 0) 
+      }
+
+    return macrosTotales
   }
 
-  const añadirIngrediente = (comida, name, cantidad, kcal, hc, prot, gras) => {
-    const nuevoIngrediente = {id: uuidv4(), name: name, cantidad: cantidad, kcal: cantidad * kcal, hc: cantidad * hc, prot: cantidad * prot, gras: cantidad * gras}
+  const añadirIngrediente = (comida, name, cantidad, kcal, hc, p, g) => {
+    const nuevoIngrediente = {id: uuidv4(), name: name, cantidad: cantidad, kcal: cantidad * kcal, hc: cantidad * hc, p: cantidad * p, g: cantidad * g}
 
     setMenu(prevMenu => {
       const comidasActualizadas = prevMenu[activeWeekDay].map(item => {
         if (item.id === comida) {
+          const ingredientesActualizados = [...item.ingredientes, nuevoIngrediente]
           return {
             ...item,
-            ingredientes: [...item.ingredientes, nuevoIngrediente],
+            ingredientes: ingredientesActualizados,
+            macros: calculateTotal({...item, ingredientes: ingredientesActualizados})
           };
         }
         return item
@@ -154,9 +185,11 @@ const AppProvider = ({ children }) => {
     setMenu(prevMenu => {
       const comidaModificada = prevMenu[activeWeekDay].map(item => {
         if(item.id === comidaId) {
+          const ingredientesActualizados = item.ingredientes.filter(item => item.id !== ingredienteId)
           return {
             ...item,
-            ingredientes: item.ingredientes.filter(item => item.id !== ingredienteId)
+            ingredientes: ingredientesActualizados,
+            macros: calculateTotal({...item, ingredientes: ingredientesActualizados})
           }
         } 
         return item       
@@ -168,6 +201,40 @@ const AppProvider = ({ children }) => {
       }
     })
   }
+
+  useEffect(() => {
+    setMenu(prevMenu => {    
+      const nuevoMenu = {}  
+      for(const key in prevMenu) {
+        const comidasActualizadas = prevMenu[key].map(comida => {
+          const nuevosMacros = calculateTotal(comida)
+          return {
+          ...comida,
+          macros: nuevosMacros
+          }
+        }) 
+        nuevoMenu[key] = comidasActualizadas
+      }
+      return nuevoMenu
+    })
+
+  }, [])
+
+  useEffect(() => {
+    setSumaDiariaTotal(prevSum => {
+      const nuevaSuma = {kcal: 0, hc: 0, p: 0, g: 0}
+      menu[activeWeekDay].forEach(comida => {
+        nuevaSuma.kcal += Number(comida.macros?.kcal) || 0
+        nuevaSuma.hc += Number(comida.macros?.hc) || 0
+        nuevaSuma.p += Number(comida.macros?.p) || 0
+        nuevaSuma.g += Number(comida.macros?.g) || 0
+      })
+      return {
+        ...prevSum,
+        [activeWeekDay]: nuevaSuma
+      }
+    })
+  }, [menu, activeWeekDay])
 
   return (
     <AppContext.Provider value={{ 
@@ -195,6 +262,10 @@ const AppProvider = ({ children }) => {
       calculateTotal,
       añadirIngrediente,
       quitarIngrediente,
+      cantidadObjetivo,
+      setCantidadObjetivo,
+      sumaDiariaTotal,
+      setSumaDiariaTotal
     }}>
       {children}
     </AppContext.Provider>
