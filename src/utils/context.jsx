@@ -126,14 +126,6 @@ const AppProvider = ({ children }) => {
 
     return total
   }
-  
-  const añadirIngrediente = (name= 'Nuevo ingrediente', cantidad, kcal, hc, prot, gras) => {
-    const nuevoIngrediente = {name: name, cantidad: cantidad, kcal: cantidad * kcal, hc: cantidad * hc, prot: cantidad * prot, gras: cantidad * gras}
-    const ingredientesActualizados = [...ingredientes, nuevoIngrediente]
-
-    setIngredientes(ingredientesActualizados)
-    setDisplay()
-  } 
 
   const añadirIngrediente = (comida, name, cantidad, kcal, hc, prot, gras) => {
     const nuevoIngrediente = {id: uuidv4(), name: name, cantidad: cantidad, kcal: cantidad * kcal, hc: cantidad * hc, prot: cantidad * prot, gras: cantidad * gras}
