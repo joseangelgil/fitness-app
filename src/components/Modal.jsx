@@ -1,6 +1,8 @@
 import { Box } from '@mui/material'
 import TarjetaNuevaComida from './TarjetaNuevaComida'
+import TarjetaModificarComida from './TarjetaModificarComida'
 import TarjetaNuevoIngrediente from './TarjetaNuevoIngrediente'
+import TarjetaModificarIngrediente from './TarjetaModificarIngrediente'
 import { useGlobalContext } from '../utils/context'
 
 const Modal = () => {
@@ -18,8 +20,10 @@ const Modal = () => {
         backgroundColor: 'rgba(0,0,0,0.5)'
         }} 
         display= {modal}>
-          {comidaOIngrediente === 'comida' && <TarjetaNuevaComida />}
-          {comidaOIngrediente === 'ingrediente' && <TarjetaNuevoIngrediente />}
+          {comidaOIngrediente === 'nuevaComida' && <TarjetaNuevaComida />}
+          {comidaOIngrediente === 'modificarComida' && <TarjetaModificarComida />}
+          {comidaOIngrediente === 'nuevoIngrediente' && <TarjetaNuevoIngrediente />}
+          {comidaOIngrediente === 'modificarIngrediente' && <TarjetaModificarIngrediente />}
         </Box>
   )
 }

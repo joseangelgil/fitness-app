@@ -1,9 +1,41 @@
-import { Stack, Typography, Button } from '@mui/material'
+import { Stack, Typography, Button, Box } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
+import { useState } from 'react'
 
 const TarjetaNuevoIngrediente = () => {
 
-  const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, activeFood } = useGlobalContext()
+  const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, data } = useGlobalContext()
+  const [search, setSearch] = useState('')
+  const [showDropdown, setShowDropdown] = useState(false)
+
+  const renderDropdown = () => {
+    return (
+      <ul style={{
+        display: showDropdown ? 'flex' : 'none', 
+        flexDirection: 'column', 
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start', 
+        flexWrap: 'nowrap',
+        position: 'absolute', 
+        top: '55px', 
+        left: '0', 
+        zIndex: 3, 
+        backgroundColor: 'white', 
+        border: '0.1px solid #444',
+        borderRadius: '5px',
+        width: '242px',
+        maxHeight: '150px',
+        overflowY: 'auto',
+        margin: 0
+      }}>
+        {data.map(item => {
+          return (
+            <li style={{margin: '5px', listStyle: 'none'}} onClick={() => {setSearch(item.name)}}>{item.name}</li>
+          )
+        })}
+      </ul>
+    )
+  }
 
   const macros = {
     kcal: 700,
@@ -27,7 +59,10 @@ const TarjetaNuevoIngrediente = () => {
       padding: '25px',
       textAlign: 'center'
     }}>
-      <Typography variant='h5'>Ingrediente</Typography>
+      <Box width='242px' position='relative' margin='0 auto'>
+        <input style={{padding: '20px 10px', fontSize: '1.1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
+        {renderDropdown()}
+      </Box>
       <Typography variant='p'>Macronutrientes por 100g</Typography>
       <Typography variant='p'>{macros.kcal} Kcal</Typography>
       <Typography variant='p'>{macros.hc}g HC</Typography>
@@ -41,7 +76,7 @@ const TarjetaNuevoIngrediente = () => {
             alert('Por favor, introduce una cantidad para continuar.'); 
             return
           }  
-          añadirIngrediente(activeFood, 'Nuevo Ingrediente', cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
+          añadirIngrediente(comidaSeleccionada, 'Nuevo Ingrediente', cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
           setDisplay()
           }}>Aceptar</Button>
       </Stack>

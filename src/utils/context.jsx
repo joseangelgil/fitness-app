@@ -5,13 +5,23 @@ const AppContext = createContext()
 
 const AppProvider = ({ children }) => {
 
+  const [data, setData] = useState([
+    {name: 'Queso', kcal: '210', hc: '2', p: '15', g: '18'},
+    {name: 'Espaguetis', kcal: '120', hc: '50', p: '7', g: '11'},
+    {name: 'Bacon', kcal: '250', hc: '0', p: '12', g: '22'},
+    {name: 'Huevo', kcal: '56', hc: '0', p: '7', g: '15'},
+    {name: 'Tomate', kcal: '56', hc: '0', p: '7', g: '15'},
+    {name: 'Arroz', kcal: '56', hc: '0', p: '7', g: '15'},
+    {name: 'Melon', kcal: '56', hc: '0', p: '7', g: '15'}
+  ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
   const [comidaOIngrediente, setComidaOIngrediente] = useState('')
   const [cantidadNuevoIngrediente, setCantidadNuevoIngrediente] = useState('')
-  const [activeFood, setActiveFood] = useState('')
+  const [comidaSeleccionada, setComidaSeleccionada] = useState('')
+  const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState('')
   const [cantidadObjetivo, setCantidadObjetivo] = useState({kcal: 2680, hc: 415, p: 120, g: 60})
   const [sumaDiariaTotal, setSumaDiariaTotal] = useState(
     {
@@ -117,8 +127,6 @@ const AppProvider = ({ children }) => {
   const setDisplay = () => {
     if(modal === 'none') setModal('block')
     else setModal('none')
-    setNombreNuevaComida('')
-    setHoraNuevaComida('')
   }
 
   const añadirComida = () => {
@@ -139,25 +147,62 @@ const AppProvider = ({ children }) => {
     setDisplay()
   }  
 
+  const modificarComida = (comidaSel, name, time) => {
+
+    const comidasActualizadas = menu[activeWeekDay].map(comida => {
+      if(comida.id === comidaSel) {
+        return {
+          ...comida,
+          name: name,
+          time: time
+        }
+      }
+      return comida
+    })    
+
+    const comidasOrdenadas = comidasActualizadas.sort((a,b) => {
+      if(a.time > b.time) return 1
+      else if(a.time < b.time) return -1
+      else return 0
+    })
+
+    setMenu(prevMenu => ({
+      ...prevMenu,
+      [activeWeekDay]: comidasOrdenadas
+    }));
+
+    setDisplay();
+  }
+
   const eliminarComida = (id) => {
     const nuevasComidas = menu[activeWeekDay].filter(comida => comida.id !== id )
     setMenu(prevMenu => ({...prevMenu, [activeWeekDay]: nuevasComidas}))
+
+    setDisplay()
   }
 
   const calculateTotal = (comida) => {
 
     const macrosTotales = {
-        kcal: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.kcal), 0),
-        hc: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.hc), 0),
-        p: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.p), 0),
-        g: comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.g), 0) 
+        kcal: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.kcal), 0)).toFixed(1)),
+        hc: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.hc), 0)).toFixed(1)),
+        p: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.p), 0)).toFixed(1)),
+        g: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.g), 0)).toFixed(1)) 
       }
 
     return macrosTotales
   }
 
   const añadirIngrediente = (comida, name, cantidad, kcal, hc, p, g) => {
-    const nuevoIngrediente = {id: uuidv4(), name: name, cantidad: cantidad, kcal: cantidad * kcal, hc: cantidad * hc, p: cantidad * p, g: cantidad * g}
+    const nuevoIngrediente = {
+      id: uuidv4(), 
+      name: name, 
+      cantidad: cantidad, 
+      kcal: Number((cantidad * kcal/100).toFixed(1)), 
+      hc: Number((cantidad * hc/100).toFixed(1)), 
+      p: Number((cantidad * p/100).toFixed(1)), 
+      g: Number((cantidad * g/100).toFixed(1)), 
+    }
 
     setMenu(prevMenu => {
       const comidasActualizadas = prevMenu[activeWeekDay].map(item => {
@@ -177,8 +222,47 @@ const AppProvider = ({ children }) => {
         [activeWeekDay]: comidasActualizadas,
       };
     });
+
+    setCantidadNuevoIngrediente('')
     setDisplay()
   } 
+
+  const modificarIngrediente = (comida, ingredienteSel, cantidad, kcal, hc, p, g) => {
+
+    setMenu(prevMenu => {
+      const comidasActualizadas = prevMenu[activeWeekDay].map(item => {
+        if (item.id === comida) {
+          const ingredientesActualizados = item.ingredientes.map(ingrediente => {
+            if(ingrediente.id === ingredienteSel) {
+              return {
+                ...ingrediente,
+                cantidad: cantidad,
+                kcal: Number((cantidad * kcal/100).toFixed(1)), 
+                hc: Number((cantidad * hc/100).toFixed(1)), 
+                p: Number((cantidad * p/100).toFixed(1)), 
+                g: Number((cantidad * g/100).toFixed(1))
+              }
+            }
+            return ingrediente            
+          })
+          return {
+            ...item,
+            ingredientes: ingredientesActualizados,
+            macros: calculateTotal({...item, ingredientes: ingredientesActualizados})
+          };
+        }
+        return item
+      });
+
+      return {
+        ...prevMenu,
+        [activeWeekDay]: comidasActualizadas,
+      };
+    });
+    
+    setCantidadNuevoIngrediente('')
+    setDisplay()
+  }
 
   const quitarIngrediente = (comidaId, ingredienteId) => {
 
@@ -200,6 +284,11 @@ const AppProvider = ({ children }) => {
         [activeWeekDay]: comidaModificada
       }
     })
+
+    setCantidadNuevoIngrediente('')
+    setIngredienteSeleccionado('')
+    setComidaSeleccionada('')
+    setDisplay()
   }
 
   useEffect(() => {
@@ -229,6 +318,11 @@ const AppProvider = ({ children }) => {
         nuevaSuma.p += Number(comida.macros?.p) || 0
         nuevaSuma.g += Number(comida.macros?.g) || 0
       })
+
+      for(const key in nuevaSuma) {
+        nuevaSuma[key] = Number(nuevaSuma[key].toFixed(1))
+      }
+
       return {
         ...prevSum,
         [activeWeekDay]: nuevaSuma
@@ -254,8 +348,10 @@ const AppProvider = ({ children }) => {
       setComidaOIngrediente,
       cantidadNuevoIngrediente,
       setCantidadNuevoIngrediente,
-      activeFood,
-      setActiveFood,
+      comidaSeleccionada,
+      setComidaSeleccionada,
+      ingredienteSeleccionado,
+      setIngredienteSeleccionado,
       setDisplay,
       añadirComida,
       eliminarComida,
@@ -265,7 +361,11 @@ const AppProvider = ({ children }) => {
       cantidadObjetivo,
       setCantidadObjetivo,
       sumaDiariaTotal,
-      setSumaDiariaTotal
+      setSumaDiariaTotal,
+      modificarIngrediente,
+      modificarComida,
+      data,
+      setData
     }}>
       {children}
     </AppContext.Provider>
