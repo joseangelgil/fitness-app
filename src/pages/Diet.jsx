@@ -3,6 +3,7 @@ import DietTable from '../components/DietTable'
 import { Box, Button } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import Modal from '../components/Modal'
+import TotalTable from '../components/TotalTable'
 
 const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 
@@ -29,7 +30,8 @@ function Diet() {
               <DietTable key={comida.id} comidaId={comida.id} name={comida.name} time={comida.time} comida={comida}/>
             )
           }
-        )}
+        )}        
+      <TotalTable />
       </Box>
       <Modal />
     </Box>

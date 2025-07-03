@@ -26,19 +26,3 @@ thead tr {
   padding: 20px 10px;
   font-size: 1.1rem;
 }
-
-.eliminar-btn {
-  visibility: hidden;
-}
-
-.tabla-comida:hover .eliminar-btn {
-  visibility: visible;
-}
-
-.quitar-btn {
-  visibility: hidden;
-}
-
-td:hover .quitar-btn {
-  visibility: visible;
-}
