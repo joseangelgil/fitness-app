@@ -35,8 +35,8 @@ const AppProvider = ({ children }) => {
       'Sabado': {},
       'Domingo': {},
     })
-  const [menu, setMenu] = useState(JSON.parse(localStorage.getItem('menu')) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
-   
+  const [menu, setMenu] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-menu`)) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
+  
   const changeActiveButton = (weekDay) => {
   setActiveWeekDay(weekDay)
   }
@@ -253,8 +253,15 @@ const AppProvider = ({ children }) => {
   }, [menu, activeWeekDay])
 
   useEffect(() => {
-    localStorage.setItem('menu', JSON.stringify(menu))
+    if(perfilActivo) {      
+      console.log(perfilActivo)
+      localStorage.setItem(`${perfilActivo}-menu`, JSON.stringify(menu))
+    }
   }, [menu])
+
+  useEffect(() => {
+    setMenu(JSON.parse(localStorage.getItem(`${perfilActivo}-menu`)) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
+  }, [perfilActivo])
 
   return (
     <AppContext.Provider value={{ 

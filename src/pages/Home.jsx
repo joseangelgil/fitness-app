@@ -3,13 +3,16 @@ import { Link } from 'react-router'
 import { Stack, Typography } from '@mui/material'
 import './Home.css'
 import { useGlobalContext } from '../utils/context'
-
-const perfiles = ['Perfil1', 'Perfil2', 'Perfil3', 'Perfil4']
+import { useState, useEffect } from 'react'
 
 function Home() {
 
-  const { perfilActivo, setPerfilActivo } = useGlobalContext()
-  console.log(perfilActivo)
+  const { setPerfilActivo } = useGlobalContext()
+  const [ perfiles, setPerfiles ] = useState(['Perfil1', 'Perfil2', 'Perfil3', 'Perfil4'])
+
+  const crearNuevoPerfil = () => {
+    setPerfiles([...perfiles, 'perfil5'])
+  }
 
   return(
     <Stack id='home' gap='20px' justifyContent='center' sx={{
