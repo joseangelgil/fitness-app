@@ -105,8 +105,8 @@ const TarjetaNuevoIngrediente = () => {
       <Stack direction='row' justifyContent='space-evenly' gap='50px'>
         <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {setDisplay()}}>Cancelar</Button>
         <Button variant='outlined' sx={{padding: '10px 20px'}} onClick={(e) => {
-          if(!cantidadNuevoIngrediente || cantidadNuevoIngrediente < 1) {
-            alert('Por favor, introduce una cantidad para continuar.'); 
+          if(!cantidadNuevoIngrediente || cantidadNuevoIngrediente < 1 || !macros.kcal) {
+            alert('Por favor, selecciona un ingrediente e introduce una cantidad para continuar.'); 
             return
           }  
           añadirIngrediente(comidaSeleccionada, search, cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 

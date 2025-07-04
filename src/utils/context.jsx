@@ -16,6 +16,7 @@ const AppProvider = ({ children }) => {
     {id: uuidv4(), name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
   ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
+  const [activeColor, setActiveColor] = useState({oscuro: '#1976d2', claro: 'lightblue'})
   const [perfilActivo, setPerfilActivo] = useState('')
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
