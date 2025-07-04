@@ -2,9 +2,14 @@ import Icon from '../assets/vite.svg'
 import { Link } from 'react-router'
 import { Stack, Typography } from '@mui/material'
 import './Home.css'
+import { useGlobalContext } from '../utils/context'
 
+const perfiles = ['Perfil1', 'Perfil2', 'Perfil3', 'Perfil4']
 
 function Home() {
+
+  const { perfilActivo, setPerfilActivo } = useGlobalContext()
+  console.log(perfilActivo)
 
   return(
     <Stack id='home' gap='20px' justifyContent='center' sx={{
@@ -19,10 +24,9 @@ function Home() {
       <Typography variant='h1'>Welcome to Fitness App!</Typography>    
       <Typography variant='p'>Select profile:</Typography>   
       <ul>
-        <li><Link className='link' to='/profile'>Profile1</Link></li>
-        <li><Link className='link' to='/profile'>Profile2</Link></li>
-        <li><Link className='link' to='/profile'>Profile3</Link></li>
-        <li><Link className='link' to='/profile'>Profile4</Link></li>
+        {perfiles.map(perfil => {
+          return (<li key={perfil} onClick={() => setPerfilActivo(perfil)}><Link className='link' to='/profile'>{perfil}</Link></li>)
+        })}
       </ul>
       <Typography variant='p'>or</Typography>
       <Typography variant='p' sx={{cursor: 'pointer'}}><Link className='link' to='/profile'>Create a new one</Link></Typography>

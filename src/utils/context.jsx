@@ -16,6 +16,7 @@ const AppProvider = ({ children }) => {
     {id: uuidv4(), name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
   ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
+  const [perfilActivo, setPerfilActivo] = useState('')
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
@@ -26,79 +27,16 @@ const AppProvider = ({ children }) => {
   const [cantidadObjetivo, setCantidadObjetivo] = useState({kcal: 2680, hc: 415, p: 120, g: 60})
   const [sumaDiariaTotal, setSumaDiariaTotal] = useState(
     {
-      'Lunes': {kcal: 1200, hc: 100, p: 35, g: 75},
-      'Martes': {kcal: 1200, hc: 100, p: 35, g: 75},
-      'Miercoles': {kcal: 1200, hc: 100, p: 35, g: 75},
-      'Jueves': {kcal: 1200, hc: 100, p: 35, g: 75},
-      'Viernes': {kcal: 1200, hc: 100, p: 35, g: 75},
-      'Sábado': {kcal: 1200, hc: 100, p: 35, g: 75},
-      'Domingo': {kcal: 1200, hc: 100, p: 35, g: 75},
+      'Lunes': {},
+      'Martes': {},
+      'Miercoles': {},
+      'Jueves': {},
+      'Viernes': {},
+      'Sabado': {},
+      'Domingo': {},
     })
-  const [menu, setMenu] = useState(
-    {
-    'Lunes': [
-      {      
-      id: uuidv4(),  
-      name: 'Almuerzo', 
-      time: '10:00', 
-      ingredientes: [],
-      macros: {}
-      },
-      {
-      id: uuidv4(),
-      name: 'Comida', 
-      time: '14:00',
-      ingredientes: [],
-      macros: {}
-      },
-      {
-      id: uuidv4(),
-      name: 'Cena', 
-      time: '21:00',
-      ingredientes: [],
-      macros: {}
-      }
-    ],
-    'Martes': [],
-    'Miercoles': [{
-      id: uuidv4(),
-      name: 'Cena', 
-      time: '21:00',
-      ingredientes: [],
-      macros: {}
-    }],    
-    'Jueves': [{
-      id: uuidv4(),
-      name: 'Cena', 
-      time: '21:00',
-      ingredientes: [],
-      macros: {}
-    }],
-    'Viernes': [{
-      id: uuidv4(),
-      name: 'Cena', 
-      time: '21:00',
-      ingredientes: [],
-      macros: {}
-    }],
-    'Sábado': [{
-      id: uuidv4(),
-      name: 'Cena', 
-      time: '21:00',
-      ingredientes: [],
-      macros: {}
-    }],
-    'Domingo': [
-      {
-      id: uuidv4(),
-      name: 'Cena', 
-      time: '21:00',
-      ingredientes: [],
-      macros: {}
-      }
-    ]
-    })
-
+  const [menu, setMenu] = useState(JSON.parse(localStorage.getItem('menu')) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
+   
   const changeActiveButton = (weekDay) => {
   setActiveWeekDay(weekDay)
   }
@@ -161,6 +99,8 @@ const AppProvider = ({ children }) => {
     const nuevasComidas = menu[activeWeekDay].filter(comida => comida.id !== id )
     setMenu(prevMenu => ({...prevMenu, [activeWeekDay]: nuevasComidas}))
 
+    setNombreNuevaComida('')
+    setHoraNuevaComida('')
     setDisplay()
   }
 
@@ -312,6 +252,10 @@ const AppProvider = ({ children }) => {
     })
   }, [menu, activeWeekDay])
 
+  useEffect(() => {
+    localStorage.setItem('menu', JSON.stringify(menu))
+  }, [menu])
+
   return (
     <AppContext.Provider value={{ 
       changeActiveButton,
@@ -347,7 +291,9 @@ const AppProvider = ({ children }) => {
       modificarIngrediente,
       modificarComida,
       data,
-      setData
+      setData,
+      perfilActivo,
+      setPerfilActivo
     }}>
       {children}
     </AppContext.Provider>

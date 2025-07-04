@@ -5,7 +5,7 @@ import { useGlobalContext } from '../utils/context'
 import Modal from '../components/Modal'
 import TotalTable from '../components/TotalTable'
 
-const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
+const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
 
 function Diet() {
 

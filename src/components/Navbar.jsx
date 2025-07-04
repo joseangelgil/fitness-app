@@ -7,13 +7,13 @@ function Navbar() {
     <Stack direction='row' mb='30px'>
       <img src={Icon} alt="Icon" />
       <Link to='/'>
-        <Button variant='text' color='primary'>HOME</Button>
+        <Button variant='text' color='primary'>INICIO</Button>
       </Link>
       <Link to='/profile'>
-        <Button variant='text' color='success'>PROFILE</Button>
+        <Button variant='text' color='success'>PERFIL</Button>
       </Link>
       <Link to='/diet'>
-        <Button variant='text' color='error'>DIET</Button>
+        <Button variant='text' color='error'>DIETA</Button>
       </Link>
     </Stack>    
   )
