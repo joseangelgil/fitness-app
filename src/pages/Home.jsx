@@ -12,6 +12,7 @@ function Home() {
 
   const crearNuevoPerfil = () => {
     setPerfiles([...perfiles, 'perfil5'])
+    setPerfilActivo('')
   }
 
   return(
