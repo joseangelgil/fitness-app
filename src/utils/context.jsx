@@ -99,21 +99,19 @@ const AppProvider = ({ children }) => {
   const eliminarComida = (id) => {
     const nuevasComidas = menu[activeWeekDay].filter(comida => comida.id !== id )
     setMenu(prevMenu => ({...prevMenu, [activeWeekDay]: nuevasComidas}))
-
+    
     setNombreNuevaComida('')
     setHoraNuevaComida('')
     setDisplay()
   }
 
   const calculateTotal = (comida) => {
-
     const macrosTotales = {
         kcal: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.kcal), 0)).toFixed(1)),
         hc: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.hc), 0)).toFixed(1)),
         p: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.p), 0)).toFixed(1)),
         g: Number((comida.ingredientes.reduce((total, ingrediente) => total + Number(ingrediente.g), 0)).toFixed(1)) 
       }
-
     return macrosTotales
   }
 
@@ -140,13 +138,11 @@ const AppProvider = ({ children }) => {
         }
         return item
       });
-
       return {
         ...prevMenu,
         [activeWeekDay]: comidasActualizadas,
       };
     });
-
     setCantidadNuevoIngrediente('')
     setDisplay()
   } 
@@ -177,19 +173,16 @@ const AppProvider = ({ children }) => {
         }
         return item
       });
-
       return {
         ...prevMenu,
         [activeWeekDay]: comidasActualizadas,
       };
-    });
-    
+    });    
     setCantidadNuevoIngrediente('')
     setDisplay()
   }
 
   const quitarIngrediente = (comidaId, ingredienteId) => {
-
     setMenu(prevMenu => {
       const comidaModificada = prevMenu[activeWeekDay].map(item => {
         if(item.id === comidaId) {
@@ -202,19 +195,19 @@ const AppProvider = ({ children }) => {
         } 
         return item       
       })
-
       return {
         ...prevMenu,
         [activeWeekDay]: comidaModificada
       }
     })
-
     setCantidadNuevoIngrediente('')
     setIngredienteSeleccionado('')
     setComidaSeleccionada('')
     setDisplay()
   }
 
+
+  // Para cada comida del menu, calcular el total al iniciar
   useEffect(() => {
     setMenu(prevMenu => {    
       const nuevoMenu = {}  
@@ -232,6 +225,8 @@ const AppProvider = ({ children }) => {
     })
   }, [])
 
+
+  // Al cambiar el menu o el dia activo, calcular la suma total de macros
   useEffect(() => {
     setSumaDiariaTotal(prevSum => {
       const nuevaSuma = {kcal: 0, hc: 0, p: 0, g: 0}
@@ -253,15 +248,25 @@ const AppProvider = ({ children }) => {
     })
   }, [menu, activeWeekDay])
 
+
+  // Cuando cambie el menu, guardar los cambios en el storage del perfil activo
   useEffect(() => {
     if(perfilActivo) {      
-      console.log(perfilActivo)
       localStorage.setItem(`${perfilActivo}-menu`, JSON.stringify(menu))
     }
   }, [menu])
 
+  // Cuando cambie el color, guardar los cambios en el storage del perfil activo
+  useEffect(() => {
+    if(perfilActivo) {      
+      localStorage.setItem(`${perfilActivo}-color`, JSON.stringify(activeColor))
+    }
+  }, [activeColor])
+
+  // Cuando cambie el perfil, devolver los datos de menu y color de ese perfil
   useEffect(() => {
     setMenu(JSON.parse(localStorage.getItem(`${perfilActivo}-menu`)) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
+    setActiveColor(JSON.parse(localStorage.getItem(`${perfilActivo}-color`)) || {name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
   }, [perfilActivo])
 
   return (
