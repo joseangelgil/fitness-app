@@ -4,7 +4,7 @@ import { Button, Typography } from '@mui/material'
 
 const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
 
-  const { setDisplay, setComidaOIngrediente, setComidaSeleccionada, setIngredienteSeleccionado, setNombreNuevaComida, setHoraNuevaComida, setCantidadNuevoIngrediente } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, setComidaSeleccionada, setIngredienteSeleccionado, setNombreNuevaComida, setHoraNuevaComida, setCantidadNuevoIngrediente, activeColor } = useGlobalContext()
 
   const handleComidaAction = ()  => {
     setComidaOIngrediente('modificarComida');
@@ -26,7 +26,7 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
     <Stack sx={{ fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>
       <table style={{ textAlign: 'center'}}>
         <thead>
-          <tr style={{ cursor: 'pointer'}} onClick={() => {handleComidaAction()}}>
+          <tr style={{ cursor: 'pointer', backgroundColor: `${activeColor.claro}`}} onClick={() => {handleComidaAction()}}>
             <th style={{width: '30%'}}>
               <Stack direction='row' justifyContent='space-evenly' flexWrap='wrap'>
                 <Typography variant='p'>{name}</Typography>
@@ -52,7 +52,7 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
               )
           }))}
           <tr>
-            <th><Button variant='text' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setComidaOIngrediente('nuevoIngrediente'); setDisplay();}}>+ añadir ingrediente</Button></th>
+            <th><Button variant='text' color={activeColor.name} sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setComidaOIngrediente('nuevoIngrediente'); setDisplay();}}>+ añadir ingrediente</Button></th>
             <th>{macros?.kcal || 0}</th>
             <th>{macros?.hc || 0}</th>
             <th>{macros?.p || 0}</th>

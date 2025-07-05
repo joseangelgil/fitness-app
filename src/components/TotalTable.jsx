@@ -3,13 +3,13 @@ import { useGlobalContext } from '../utils/context'
 
 const TotalTable = () => {
 
-  const { cantidadObjetivo, sumaDiariaTotal, activeWeekDay } = useGlobalContext()
+  const { cantidadObjetivo, sumaDiariaTotal, activeWeekDay, activeColor } = useGlobalContext()
 
   return (
     <Stack sx={{ fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>
       <table style={{ textAlign: 'center'}}>
         <thead>
-          <tr>
+          <tr style={{backgroundColor: `${activeColor.claro}`}}>
             <th style={{width: '30%'}}>Macros Totales</th>
             <th>Kcal</th>
             <th>Hidratos de Carbono (g)</th>

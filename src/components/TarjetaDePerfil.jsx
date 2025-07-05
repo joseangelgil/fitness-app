@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 const TarjetaDePerfil = () => {
 
-  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo } = useGlobalContext()
+  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor } = useGlobalContext()
 
   const [ datosDePerfil, setDatosDePerfil ] = useState({nombre: 'Juan', peso: 80, altura: 170, edad: 25, sexo: 'hombre', actividad: 'poca', proteinas: '1', grasas: '1'})
 
@@ -96,9 +96,32 @@ const TarjetaDePerfil = () => {
     ))
   }
 
+  const cambiarColorDelTema = (color) => {
+    switch(color) {
+      case 'primary':
+        setActiveColor({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
+        break
+      case 'error':
+        setActiveColor({name: 'error', oscuro: '#d32f2f', claro: '#FFB6C1'})
+        break
+      case 'success':
+        setActiveColor({name: 'success', oscuro: '#2e7d32', claro: '#A8E6A3'})
+        break
+      case 'warning':
+        setActiveColor({name: 'warning', oscuro: '#ed6c02', claro: '#FFE7A3'})
+        break
+      case 'secondary':
+        setActiveColor({name: 'secondary', oscuro: '#9c27b0', claro: '#D9C7FF'})
+        break
+      default:
+        setActiveColor({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
+        break
+    }
+  }
+
   return (
     <Stack justifyContent='space-around' sx={{
-      backgroundColor:'lightblue',
+      backgroundColor: `${activeColor.claro}`,
       width: '1200px',
       minHeight: '800px',
       maxWidth: '95vw',
@@ -106,17 +129,17 @@ const TarjetaDePerfil = () => {
       borderRadius: '20px',
       padding: '60px 30px 30px',
       position: 'relative',
-      border: '3px solid #1976d2'
+      border: `3px solid ${activeColor.oscuro}`
     }}>
       <Typography variant='h5' sx={{position: 'absolute', top: '20px', left: '30px'}}>Información de Perfil - {perfilActivo}</Typography>
       <Stack direction='row' alignItems='center' gap='10px' flexWrap='wrap' sx={{justifyContent: {xs: 'center', sm: 'flex-end'}}}>
           <Typography variant='p' sx={{fontSize: '1.1rem'}}>Color del tema: </Typography>
           <Stack direction='row' gap='10px'>
-            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='primary'></Button>
-            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='error'></Button>
-            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='success'></Button>
-            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='warning'></Button>
-            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='secondary'></Button>            
+            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='primary' onClick={(e) => cambiarColorDelTema('primary')}></Button>
+            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='error' onClick={(e) => cambiarColorDelTema('error')}></Button>
+            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='success' onClick={(e) => cambiarColorDelTema('success')}></Button>
+            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='warning' onClick={(e) => cambiarColorDelTema('warning')}></Button>
+            <Button variant='contained' sx={{width: '25px', minWidth: '25px', height: '30px', borderRadius: '8px'}} color='secondary' onClick={(e) => cambiarColorDelTema('secondary')}></Button>            
           </Stack>
         </Stack>
       <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'space-between', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>
@@ -176,7 +199,7 @@ const TarjetaDePerfil = () => {
             <input className='casilla-info' id='info-grasas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.grasas} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, grasas: e.target.value}))}/>
         </Stack>
       </Stack>
-      <Button variant='contained' sx={{padding: '10px', width: '100%', fontSize: '1.1rem'}} onClick={() => calcularMacros()}>Calcular macronutrientes (Mifflin&nbsp;&&nbsp;St&nbsp;Jeor)</Button>
+      <Button variant='contained' color={activeColor.name} sx={{padding: '10px', width: '100%', fontSize: '1.1rem'}} onClick={() => calcularMacros()}>Calcular macronutrientes (Mifflin&nbsp;&&nbsp;St&nbsp;Jeor)</Button>
       <Stack direction='row' flexWrap='wrap' justifyContent='space-evenly' sx={{width: '100%', padding: '10px'}}>
         <Button variant='text' color='error' sx={{padding: '5px', fontSize: '1.1rem'}} onClick={() => añadirDeficit()}>Añadir Déficit -50Kcal</Button>
         <Button variant='text' color='success' sx={{padding: '5px', fontSize: '1.1rem'}} onClick={() => añadirSuperavit()}>Añadir Superávit +50Kcal</Button>
@@ -192,17 +215,17 @@ const TarjetaDePerfil = () => {
           <Stack gap='5px'>
             <Typography variant='h5' textAlign='center'>Hidratos de Carbono</Typography>       
             <Typography variant='h5' textAlign='center'>{cantidadObjetivo.hc}g</Typography>        
-            <Typography variant='h5' textAlign='center'>{Math.round(cantidadObjetivo.hc * 4 * 100 / cantidadObjetivo.kcal)}%</Typography>
+            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.hc * 4 * 100 / cantidadObjetivo.kcal)}%</Typography>
           </Stack>
           <Stack gap='5px'>
             <Typography variant='h5' textAlign='center'>Proteinas</Typography>       
             <Typography variant='h5' textAlign='center'>{cantidadObjetivo.p}g</Typography>        
-            <Typography variant='h5' textAlign='center'>{Math.round(cantidadObjetivo.p * 4 * 100 / cantidadObjetivo.kcal)}%</Typography>
+            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.p * 4 * 100 / cantidadObjetivo.kcal)}%</Typography>
           </Stack>
           <Stack gap='5px'>
             <Typography variant='h5' textAlign='center'>Grasas</Typography>       
             <Typography variant='h5' textAlign='center'>{cantidadObjetivo.g}g</Typography>        
-            <Typography variant='h5' textAlign='center'>{Math.round(cantidadObjetivo.g * 9 * 100 / cantidadObjetivo.kcal)}%</Typography>
+            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.g * 9 * 100 / cantidadObjetivo.kcal)}%</Typography>
           </Stack>
         </Stack>
       </Box>
