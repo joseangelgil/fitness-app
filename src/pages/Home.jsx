@@ -12,7 +12,7 @@ function Home() {
 
   const crearNuevoPerfil = () => {
     setPerfiles([...perfiles, 'perfil5'])
-    setPerfilActivo('')
+    setPerfilActivo('perfil5')
   }
 
   return(
@@ -34,7 +34,7 @@ function Home() {
         })}
       </ul>
       <Typography variant='p' sx={{fontSize: {xs: '1.8rem', lg: '3rem'}}}>o</Typography>
-      <Typography variant='p'><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}}>Crea uno nuevo</Link></Typography>
+      <Typography variant='p'><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}} onClick={() => crearNuevoPerfil()}>Crea uno nuevo</Link></Typography>
     </Stack>
   )
 }

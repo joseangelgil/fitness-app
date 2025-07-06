@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Button } from '@mui/material'
+import { Box, Stack, Typography, Button, Snackbar } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import { useState, useEffect } from 'react'
 
@@ -6,7 +6,21 @@ const TarjetaDePerfil = () => {
 
   const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor } = useGlobalContext()
 
-  const [ datosDePerfil, setDatosDePerfil ] = useState({nombre: 'Juan', peso: 80, altura: 170, edad: 25, sexo: 'hombre', actividad: 'poca', proteinas: '1', grasas: '1'})
+  const [ datosDePerfil, setDatosDePerfil ] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-datos`)) || {nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
+  const [ errores, setErrores ] = useState({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
+  const [ datosValidos, setDatosValidos ] = useState(true)
+  const [ openSnackbar, setOpenSnackbar ] = useState(true)
+
+
+  // Modificar datos de perfil y controlar errores en campo
+  const modificarCampo = (e, campo, min, max) => {
+    if(e.target.value < min || e.target.value > max) {
+      setErrores(prevErrores => ({...prevErrores, [campo]: `Debe estar entre ${min} y ${max}`}))
+    } else {
+      setErrores(prevErrores => ({...prevErrores, [campo]: ''}))
+    }    
+    setDatosDePerfil(prevDatos => ({...prevDatos, [campo]: e.target.value}))
+  }
 
   const obtenerSexo = (sexo) => {
     switch(sexo) {
@@ -38,13 +52,13 @@ const TarjetaDePerfil = () => {
 
   const sonDatosValidos = (peso, altura, edad, sexo, actividad, proteinas, grasas) => {
     return (
-      (peso > 0 && peso <= 200) && 
+      (peso > 0 && peso <= 250) && 
       (altura > 0 && altura <= 250) && 
-      (edad > 0 && edad <= 100) && 
+      (edad > 0 && edad <= 120) && 
       sexo != 0 && 
       actividad != 0 && 
-      (proteinas > 0 && proteinas <= 3) &&
-      (grasas > 0 && grasas <= 3)
+      (proteinas >= 0 && proteinas <= 3) &&
+      (grasas >= 0 && grasas <= 3)
     )
   }
 
@@ -58,7 +72,8 @@ const TarjetaDePerfil = () => {
     const grasas = Number(datosDePerfil.grasas)
 
     if(!sonDatosValidos(peso, altura, edad, sexo, actividad, proteinas, grasas)) {
-      alert('Por favor, rellena todos los campos con datos válidos:\nPeso: 1 - 200\nAltura: min: 1 - 250\nEdad: 1 - 100\nSexo: Selecciona una opcion\nActividad: Selecciona una opcion\nProteinas: 0 - 3\nGrasas: 0 - 3')
+      setDatosValidos(false)
+      setTimeout(() => setOpenSnackbar(true), 100)
       return
     }
 
@@ -119,6 +134,27 @@ const TarjetaDePerfil = () => {
     }
   }
 
+  // Guardar datos de perfil en perfilActivo cuando estos cambien
+  useEffect(() => {
+    if(perfilActivo) {
+      localStorage.setItem(`${perfilActivo}-datos`, JSON.stringify(datosDePerfil))
+    }
+  }, [datosDePerfil])
+
+  // Devolver los datos de perfil cuando perfilActivo cambie
+  useEffect(() => {
+    if(perfilActivo) {
+      setDatosDePerfil(JSON.parse(localStorage.getItem(`${perfilActivo}-datos`)))
+    } else {
+      setDatosDePerfil({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
+    }
+  }, [perfilActivo])
+
+  
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false)
+  }
+
   return (
     <Stack justifyContent='space-around' sx={{
       backgroundColor: `${activeColor.claro}`,
@@ -131,7 +167,7 @@ const TarjetaDePerfil = () => {
       position: 'relative',
       border: `3px solid ${activeColor.oscuro}`
     }}>
-      <Typography variant='h5' sx={{position: 'absolute', top: '20px', left: '30px'}}>Información de Perfil - {perfilActivo}</Typography>
+      <Typography variant='h5' sx={{position: 'absolute', top: '20px', left: '30px'}}>Información de Perfil - {datosDePerfil.nombre}</Typography>
       <Stack direction='row' alignItems='center' gap='10px' flexWrap='wrap' sx={{justifyContent: {xs: 'center', sm: 'flex-end'}}}>
           <Typography variant='p' sx={{fontSize: '1.1rem'}}>Color del tema: </Typography>
           <Stack direction='row' gap='10px'>
@@ -145,29 +181,32 @@ const TarjetaDePerfil = () => {
       <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'space-between', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>
         <Stack gap='5px'>
           <label htmlFor="info-nombre">Nombre de Perfil</label>
-          <input className='casilla-info' id='info-nombre' type="text" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>
+          {datosDePerfil.nombre ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className='casilla-info' id='info-nombre' type="text" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}          
         </Stack>
         <Stack gap='5px'>
           <label htmlFor="info-peso">Peso en Kg</label>
-          <input className='casilla-info' id='info-peso' type="number" min='0' value={datosDePerfil.peso} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, peso: e.target.value}))}/>
+          <input className={errores.peso ? 'casilla-info campo-error' : 'casilla-info'} id='info-peso' type="number" min='0' max='250' value={datosDePerfil.peso} onChange={(e) => modificarCampo(e, 'peso', 1, 250)}/>
+          {errores.peso && <Typography variant='caption' color='error'>{errores.peso}</Typography>}
         </Stack>
         <Stack gap='5px'>
           <label htmlFor="info-altura">Altura en cm</label>
-          <input className='casilla-info' id='info-altura' type="number" min='0' value={datosDePerfil.altura} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, altura: e.target.value}))}/>
+          <input className={errores.altura ? 'casilla-info campo-error' : 'casilla-info'} id='info-altura' type="number" min='0' max='250' value={datosDePerfil.altura} onChange={(e) => modificarCampo(e, 'altura', 1, 250)}/>
+          {errores.altura && <Typography variant='caption' color='error'>{errores.altura}</Typography>}
         </Stack>
         <Stack gap='5px'>
           <label htmlFor="info-edad">Edad</label>
-          <input className='casilla-info' id='info-edad' type="number" min='0' max='100' value={datosDePerfil.edad} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, edad: e.target.value}))}/>
+          <input className={errores.edad ? 'casilla-info campo-error' : 'casilla-info'} id='info-edad' type="number" min='0' max='120' value={datosDePerfil.edad} onChange={(e) => modificarCampo(e, 'edad', 1, 120)}/>
+          {errores.edad && <Typography variant='caption' color='error'>{errores.edad}</Typography>}
         </Stack>
         <Stack gap='5px'>
           <label htmlFor="info-sexo">Sexo</label>
-          <select 
-            className='casilla-info' 
+          <select             
+            className= 'casilla-info'
             name="selector-sexo" 
             id="info-sexo"
             value={datosDePerfil.sexo}
             onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, sexo: e.target.value}))}>
-          <option value=""></option>
+          <option value="none"></option>
           <option value="hombre">Hombre</option>
           <option value="mujer">Mujer</option>
         </select>
@@ -181,7 +220,7 @@ const TarjetaDePerfil = () => {
             id="info-actividad" 
             value={datosDePerfil.actividad} 
             onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, actividad: e.target.value}))}>
-          <option value=""></option>
+          <option value="none"></option>
           <option value="poca">Poca o ninguna</option>
           <option value="ligera">Ligera (1-3 días a la semana)</option>
           <option value="moderada">Moderada (3-5 días a la semana)</option>
@@ -191,12 +230,14 @@ const TarjetaDePerfil = () => {
       </Stack>
       <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'flex-start', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>        
         <Stack gap='5px'>
-            <label htmlFor="info-proteinas">Proteínas</label>
-            <input className='casilla-info' id='info-proteinas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.proteinas} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, proteinas: e.target.value}))}/>
+            <label htmlFor="info-proteinas">Proteína por Kg</label>
+            <input className={errores.proteinas ? 'casilla-info campo-error' : 'casilla-info'} id='info-proteinas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.proteinas} onChange={(e) => modificarCampo(e, 'proteinas', 0, 3)}/>
+            {errores.proteinas && <Typography variant='caption' color='error'>{errores.proteinas}</Typography>}
         </Stack>
         <Stack gap='5px'>
-            <label htmlFor="info-grasas">Grasas</label>
-            <input className='casilla-info' id='info-grasas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.grasas} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, grasas: e.target.value}))}/>
+            <label htmlFor="info-grasas">Grasas por Kg</label>
+            <input className={errores.grasas ? 'casilla-info campo-error' : 'casilla-info'} id='info-grasas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.grasas} onChange={(e) => modificarCampo(e, 'grasas', 0, 3)}/>
+            {errores.grasas && <Typography variant='caption' color='error'>{errores.grasas}</Typography>}
         </Stack>
       </Stack>
       <Button variant='contained' color={activeColor.name} sx={{padding: '10px', width: '100%', fontSize: '1.1rem'}} onClick={() => calcularMacros()}>Calcular macronutrientes (Mifflin&nbsp;&&nbsp;St&nbsp;Jeor)</Button>
@@ -229,6 +270,13 @@ const TarjetaDePerfil = () => {
           </Stack>
         </Stack>
       </Box>
+      <Button variant='text' color='error' sx={{padding: '5px', fontSize: '1.1rem', m: '5px auto -20px'}}>Eliminar Perfil</Button>
+      {!datosValidos && <Snackbar
+                          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                          open={openSnackbar}
+                          onClose={handleSnackbarClose}
+                          message='Hay campos vacíos o con errores'
+                        />}
     </Stack>
   )
 }

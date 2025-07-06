@@ -13,12 +13,6 @@ label {
   font-size: 1.2rem;
 }
 
-.casilla-info {
-  padding: 10px;
-  width: 175px;
-  font-size: 1.1rem;
-}
-
 table {
   border-spacing: 0 10px;
   color: #444;
@@ -27,6 +21,20 @@ table {
 thead tr {
   height: 40px;
   color: light
+}
+
+.casilla-info {
+  padding: 10px;
+  width: 175px;
+  font-size: 1.1rem;
+}
+
+.campo-error {
+  border: 2px solid red;
+}
+
+.campo-error:focus {
+  outline-color:  red;  
 }
 
 @media (min-width: 600px) {
