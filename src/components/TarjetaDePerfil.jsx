@@ -53,6 +53,7 @@ const TarjetaDePerfil = () => {
 
   const sonDatosValidos = (peso, altura, edad, sexo, actividad, proteinas, grasas) => {
     return (
+      (!esNuevoPerfil || (esNuevoPerfil && datosDePerfil.nombre !== '' && !perfiles.includes(datosDePerfil.nombre))) &&
       (peso > 0 && peso <= 250) && 
       (altura > 0 && altura <= 250) && 
       (edad > 0 && edad <= 120) && 
@@ -116,22 +117,22 @@ const TarjetaDePerfil = () => {
   const cambiarColorDelTema = (color) => {
     switch(color) {
       case 'primary':
-        setActiveColor({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
+        setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})
         break
       case 'error':
-        setActiveColor({name: 'error', oscuro: '#d32f2f', claro: '#FFB6C1'})
+        setActiveColor({name: 'error', oscuro: '#D32F2F', claro: '#FFB6C1'})
         break
       case 'success':
-        setActiveColor({name: 'success', oscuro: '#2e7d32', claro: '#A8E6A3'})
+        setActiveColor({name: 'success', oscuro: '#2E7D32', claro: '#A8E6A3'})
         break
       case 'warning':
-        setActiveColor({name: 'warning', oscuro: '#ed6c02', claro: '#FFE7A3'})
+        setActiveColor({name: 'warning', oscuro: '#ED6C02', claro: '#FFE7A3'})
         break
       case 'secondary':
-        setActiveColor({name: 'secondary', oscuro: '#9c27b0', claro: '#D9C7FF'})
+        setActiveColor({name: 'secondary', oscuro: '#9C27B0', claro: '#D9C7FF'})
         break
       default:
-        setActiveColor({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
+        setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})
         break
     }
   }
@@ -152,6 +153,11 @@ const TarjetaDePerfil = () => {
     }
   }, [perfilActivo])
 
+  // Guardar datos de cantidad objetivo cada vez que estas varien
+  useEffect(() => {
+    if(perfilActivo) localStorage.setItem(`${perfilActivo}-cantidad`, JSON.stringify({kcal: cantidadObjetivo.kcal, hc: cantidadObjetivo.hc, p: cantidadObjetivo.p, g: cantidadObjetivo.g}))
+  }, [cantidadObjetivo])
+
   const guardarEliminarPerfil = () => {
     setDatosValidos(true)
     if(esNuevoPerfil) {      
@@ -161,24 +167,39 @@ const TarjetaDePerfil = () => {
         setTimeout(() => setOpenSnackbar(true), 100)
         return
       } else{        
-        setPerfiles(prevPerfiles => [...prevPerfiles, datosDePerfil.nombre])
+        setPerfiles(prevPerfiles => {
+          const nuevosPerfiles = [...prevPerfiles, datosDePerfil.nombre]          
+          localStorage.setItem('perfiles', JSON.stringify(nuevosPerfiles))
+          return nuevosPerfiles
+        })      
         localStorage.setItem(`${datosDePerfil.nombre}-datos`, JSON.stringify(datosDePerfil))
         localStorage.setItem(`${datosDePerfil.nombre}-color`, JSON.stringify(activeColor))
         localStorage.setItem(`${datosDePerfil.nombre}-menu`, JSON.stringify({'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []}))
+        localStorage.setItem(`${datosDePerfil.nombre}-cantidad`, JSON.stringify({kcal: cantidadObjetivo.kcal, hc: cantidadObjetivo.hc, p: cantidadObjetivo.p, g: cantidadObjetivo.g}))
         setEsNuevoPerfil(false)
+        setPerfilActivo(datosDePerfil.nombre)
       }
     } else {
       localStorage.removeItem(`${datosDePerfil.nombre}-datos`);
       localStorage.removeItem(`${datosDePerfil.nombre}-color`);
       localStorage.removeItem(`${datosDePerfil.nombre}-menu`);      
-      setPerfiles(perfiles.filter(perfil => perfil !== datosDePerfil.nombre))
+      localStorage.removeItem(`${datosDePerfil.nombre}-cantidad`); 
+      setPerfiles(() => {
+          const nuevosPerfiles = perfiles.filter(perfil => perfil !== datosDePerfil.nombre)          
+          localStorage.setItem('perfiles', JSON.stringify(nuevosPerfiles))
+          return nuevosPerfiles
+      })  
       setEsNuevoPerfil(true)
       setPerfilActivo('')
-      setDatosDePerfil({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
     }
   }  
+
   const handleSnackbarClose = () => {
     setOpenSnackbar(false)
+  }
+
+  const unirNombreConEspacios = (nombre) => {
+    return (nombre.replace(/\s/g, '\u00A0'))
   }
 
   return (
@@ -189,11 +210,12 @@ const TarjetaDePerfil = () => {
       maxWidth: '95vw',
       margin: '0 auto',
       borderRadius: '20px',
-      padding: '60px 30px 30px',
+      padding: '30px 30px',
+      pt: {xs: '100px', sm: '60px'},
       position: 'relative',
       border: `3px solid ${activeColor.oscuro}`
     }}>
-      <Typography variant='h5' sx={{position: 'absolute', top: '20px', left: '30px'}}>Información de Perfil - {datosDePerfil.nombre}</Typography>
+      <Typography variant='h5' sx={{position: 'absolute', top: '20px', left: '30px'}}>Información de Perfil - {unirNombreConEspacios(datosDePerfil.nombre)}</Typography>
       <Stack direction='row' alignItems='center' gap='10px' flexWrap='wrap' sx={{justifyContent: {xs: 'center', sm: 'flex-end'}}}>
           <Typography variant='p' sx={{fontSize: '1.1rem'}}>Color del tema: </Typography>
           <Stack direction='row' gap='10px'>
@@ -207,7 +229,7 @@ const TarjetaDePerfil = () => {
       <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'space-between', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>
         <Stack gap='5px'>
           <label htmlFor="info-nombre">Nombre de Perfil</label>
-          {!esNuevoPerfil ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className={perfiles.includes(datosDePerfil.nombre) ? 'casilla-info campo-error' : 'casilla-info'} id='info-nombre' type="text" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}  
+          {!esNuevoPerfil ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className={perfiles.includes(datosDePerfil.nombre) ? 'casilla-info campo-error' : 'casilla-info'} id='info-nombre' type="text" maxlength="15" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}  
           {(esNuevoPerfil && perfiles.includes(datosDePerfil.nombre)) && <Typography variant='caption' color='error'>El perfil ya existe</Typography>}        
         </Stack>
         <Stack gap='5px'>
@@ -255,22 +277,25 @@ const TarjetaDePerfil = () => {
           <option value="muy-intensa">Muy intensa (2 veces al día)</option>
         </select>
       </Stack>
-      <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'flex-start', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>        
-        <Stack gap='5px'>
-            <label htmlFor="info-proteinas">Proteína por Kg</label>
-            <input className={errores.proteinas ? 'casilla-info campo-error' : 'casilla-info'} id='info-proteinas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.proteinas} onChange={(e) => modificarCampo(e, 'proteinas', 0, 3)}/>
-            {errores.proteinas && <Typography variant='caption' color='error'>{errores.proteinas}</Typography>}
+      <Stack direction='row' flexWrap='wrap' alignItems='center' sx={{justifyContent: {sm: 'space-between', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>
+        <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'flex-start', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>        
+          <Stack gap='5px'>
+              <label htmlFor="info-proteinas">Proteína por Kg</label>
+              <input className={errores.proteinas ? 'casilla-info campo-error' : 'casilla-info'} id='info-proteinas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.proteinas} onChange={(e) => modificarCampo(e, 'proteinas', 0, 3)}/>
+              {errores.proteinas && <Typography variant='caption' color='error'>{errores.proteinas}</Typography>}
+          </Stack>
+          <Stack gap='5px'>
+              <label htmlFor="info-grasas">Grasas por Kg</label>
+              <input className={errores.grasas ? 'casilla-info campo-error' : 'casilla-info'} id='info-grasas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.grasas} onChange={(e) => modificarCampo(e, 'grasas', 0, 3)}/>
+              {errores.grasas && <Typography variant='caption' color='error'>{errores.grasas}</Typography>}
+          </Stack>
         </Stack>
-        <Stack gap='5px'>
-            <label htmlFor="info-grasas">Grasas por Kg</label>
-            <input className={errores.grasas ? 'casilla-info campo-error' : 'casilla-info'} id='info-grasas' type="number" min='0' max='3' step='0.1' placeholder='g por Kg de peso' value={datosDePerfil.grasas} onChange={(e) => modificarCampo(e, 'grasas', 0, 3)}/>
-            {errores.grasas && <Typography variant='caption' color='error'>{errores.grasas}</Typography>}
-        </Stack>
+        <Button variant='text' color={esNuevoPerfil ? activeColor.name : 'error'} sx={{padding: '5px 10px', fontSize: '1.1rem', mb: {xs: '30px', sm: '0'}}} onClick={() => guardarEliminarPerfil()}>{esNuevoPerfil ? 'Guardar Perfil' : 'Eliminar Perfil'}</Button>
       </Stack>
       <Button variant='contained' color={activeColor.name} sx={{padding: '10px', width: '100%', fontSize: '1.1rem'}} onClick={() => calcularMacros()}>Calcular macronutrientes (Mifflin&nbsp;&&nbsp;St&nbsp;Jeor)</Button>
       <Stack direction='row' flexWrap='wrap' justifyContent='space-evenly' sx={{width: '100%', padding: '10px'}}>
-        <Button variant='text' color='error' sx={{padding: '5px', fontSize: '1.1rem'}} onClick={() => añadirDeficit()}>Añadir Déficit -50Kcal</Button>
-        <Button variant='text' color='success' sx={{padding: '5px', fontSize: '1.1rem'}} onClick={() => añadirSuperavit()}>Añadir Superávit +50Kcal</Button>
+        <Button variant='text' color='error' sx={{padding: '10px', fontSize: '1.1rem'}} onClick={() => añadirDeficit()}>Añadir Déficit -50Kcal</Button>
+        <Button variant='text' color='success' sx={{padding: '10px', fontSize: '1.1rem'}} onClick={() => añadirSuperavit()}>Añadir Superávit +50Kcal</Button>
       </Stack>
       <Box sx={{borderRadius: '20px', padding: '10px'}}>        
         <Typography variant='h5' textAlign='center'>OBJETIVO DE MACRONUTRIENTES DIARIO</Typography>
@@ -283,21 +308,20 @@ const TarjetaDePerfil = () => {
           <Stack gap='5px'>
             <Typography variant='h5' textAlign='center'>Hidratos de Carbono</Typography>       
             <Typography variant='h5' textAlign='center'>{cantidadObjetivo.hc}g</Typography>        
-            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.hc * 4 * 100 / cantidadObjetivo.kcal)}%</Typography>
+            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.hc * 4 * 100 / cantidadObjetivo.kcal) || 0}%</Typography>
           </Stack>
           <Stack gap='5px'>
             <Typography variant='h5' textAlign='center'>Proteinas</Typography>       
             <Typography variant='h5' textAlign='center'>{cantidadObjetivo.p}g</Typography>        
-            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.p * 4 * 100 / cantidadObjetivo.kcal)}%</Typography>
+            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.p * 4 * 100 / cantidadObjetivo.kcal) || 0}%</Typography>
           </Stack>
           <Stack gap='5px'>
             <Typography variant='h5' textAlign='center'>Grasas</Typography>       
             <Typography variant='h5' textAlign='center'>{cantidadObjetivo.g}g</Typography>        
-            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.g * 9 * 100 / cantidadObjetivo.kcal)}%</Typography>
+            <Typography variant='h5' textAlign='center' sx={{color: 'gray'}}>{Math.round(cantidadObjetivo.g * 9 * 100 / cantidadObjetivo.kcal) || 0}%</Typography>
           </Stack>
         </Stack>
-      </Box>
-      <Button variant='text' color={esNuevoPerfil ? activeColor.name : 'error'} sx={{padding: '5px 10px', fontSize: '1.1rem', m: '5px auto -20px'}} onClick={() => guardarEliminarPerfil()}>{esNuevoPerfil ? 'Guardar Perfil' : 'Eliminar Perfil'}</Button>
+      </Box>      
       {!datosValidos && <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackbar} onClose={handleSnackbarClose} message={snackbarMessage} />}
     </Stack>
   )

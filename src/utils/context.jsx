@@ -17,9 +17,9 @@ const AppProvider = ({ children }) => {
   ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
   const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})  
-  const [perfiles, setPerfiles] = useState([])
+  const [perfiles, setPerfiles] = useState(JSON.parse(localStorage.getItem('perfiles')) || [])
   const [perfilActivo, setPerfilActivo] = useState('')
-  const [esNuevoPerfil, setEsNuevoPerfil] = useState(false)
+  const [esNuevoPerfil, setEsNuevoPerfil] = useState(true)
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
@@ -27,7 +27,7 @@ const AppProvider = ({ children }) => {
   const [cantidadNuevoIngrediente, setCantidadNuevoIngrediente] = useState('')
   const [comidaSeleccionada, setComidaSeleccionada] = useState('')
   const [ingredienteSeleccionado, setIngredienteSeleccionado] = useState('')
-  const [cantidadObjetivo, setCantidadObjetivo] = useState({kcal: 2680, hc: 415, p: 120, g: 60})
+  const [cantidadObjetivo, setCantidadObjetivo] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-cantidad`)) || {kcal: 0, hc: 0, p: 0, g: 0})
   const [sumaDiariaTotal, setSumaDiariaTotal] = useState(
     {
       'Lunes': {},
@@ -269,6 +269,7 @@ const AppProvider = ({ children }) => {
   useEffect(() => {
     setMenu(JSON.parse(localStorage.getItem(`${perfilActivo}-menu`)) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
     setActiveColor(JSON.parse(localStorage.getItem(`${perfilActivo}-color`)) || {name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
+    setCantidadObjetivo(JSON.parse(localStorage.getItem(`${perfilActivo}-cantidad`)) || {kcal: 0, hc: 0, p: 0, g: 0})
   }, [perfilActivo])
 
   return (

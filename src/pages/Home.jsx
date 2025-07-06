@@ -6,11 +6,13 @@ import { useGlobalContext } from '../utils/context'
 
 function Home() {
 
-  const { setPerfilActivo, activeColor, setEsNuevoPerfil, perfiles } = useGlobalContext()
+  const { setPerfilActivo, activeColor, setEsNuevoPerfil, perfiles, setCantidadObjetivo, setMenu } = useGlobalContext()
 
   const crearNuevoPerfil = () => {
     setPerfilActivo('')
     setEsNuevoPerfil(true)
+    setCantidadObjetivo({kcal: 0, hc: 0, p: 0, g: 0})
+    setMenu({'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
   }
 
   return(
