@@ -3,20 +3,18 @@ import { Link } from 'react-router'
 import { Stack, Typography } from '@mui/material'
 import './Home.css'
 import { useGlobalContext } from '../utils/context'
-import { useState, useEffect } from 'react'
 
 function Home() {
 
-  const { setPerfilActivo, activeColor } = useGlobalContext()
-  const [ perfiles, setPerfiles ] = useState(['Perfil1', 'Perfil2', 'Perfil3', 'Perfil4'])
+  const { setPerfilActivo, activeColor, setEsNuevoPerfil, perfiles } = useGlobalContext()
 
   const crearNuevoPerfil = () => {
-    setPerfiles([...perfiles, 'perfil5'])
-    setPerfilActivo('perfil5')
+    setPerfilActivo('')
+    setEsNuevoPerfil(true)
   }
 
   return(
-    <Stack id='home' justifyContent='space-around' sx={{
+    <Stack id='home' className='home' sx={{
       width: '100%',
       height: '100vh',
       fontSize: '2rem',
@@ -25,16 +23,28 @@ function Home() {
       textAlign: 'center',
       padding: '30px'
     }}>
-      <img src={Icon} alt="Icon" style={{width: '10%', margin: '0 auto'}}/>
+      {/* <img src={Icon} alt="Icon" style={{width: '10%', margin: '0 auto'}}/> */}
       <Typography variant='h1' sx={{fontSize: {xs: '2.8rem', lg: '5rem'}}}>¡Bienvenid@ a Fitness App!</Typography>    
-      <Typography variant='p' sx={{fontSize: {xs: '1.8rem', lg: '3rem'}}}>Selecciona tu perfil:</Typography>   
-      <ul>
-        {perfiles.map(perfil => {
-          return (<li key={perfil} onClick={() => setPerfilActivo(perfil)}><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}}>{perfil}</Link></li>)
-        })}
-      </ul>
-      <Typography variant='p' sx={{fontSize: {xs: '1.8rem', lg: '3rem'}}}>o</Typography>
-      <Typography variant='p'><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}} onClick={() => crearNuevoPerfil()}>Crea uno nuevo</Link></Typography>
+      { perfiles.length ? 
+        <Stack  className='home' sx={{
+          height: '50%',
+          fontSize: '2rem',
+          backgroundColor: `${activeColor.claro}`,
+          color: `${activeColor.oscuro}`,
+          textAlign: 'center',
+          mt: '15px'}}>
+          <Typography variant='p' sx={{fontSize: {xs: '1.7rem', lg: '3rem'}}}>Selecciona tu perfil:</Typography>   
+          <ul>
+            {perfiles.map(perfil => {
+              return (<li key={perfil} onClick={() => {setPerfilActivo(perfil); setEsNuevoPerfil(false)}}><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}}>{perfil}</Link></li>)
+            })}
+          </ul>
+          <Typography variant='p' sx={{fontSize: {xs: '1.7rem', lg: '3rem'}}}>o</Typography>
+          <Typography variant='p'><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}} onClick={() => crearNuevoPerfil()}>Crea uno nuevo</Link></Typography>
+        </Stack> :
+        <Typography variant='p' className='home-p'><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}} onClick={() => crearNuevoPerfil()}>Crea tu perfil</Link></Typography>
+      }
+      
     </Stack>
   )
 }

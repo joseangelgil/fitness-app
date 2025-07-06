@@ -16,8 +16,10 @@ const AppProvider = ({ children }) => {
     {id: uuidv4(), name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
   ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
-  const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
+  const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})  
+  const [perfiles, setPerfiles] = useState([])
   const [perfilActivo, setPerfilActivo] = useState('')
+  const [esNuevoPerfil, setEsNuevoPerfil] = useState(false)
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
@@ -305,6 +307,10 @@ const AppProvider = ({ children }) => {
       modificarComida,
       data,
       setData,
+      perfiles,
+      setPerfiles,
+      esNuevoPerfil,
+      setEsNuevoPerfil,
       perfilActivo,
       setPerfilActivo,
       activeColor,

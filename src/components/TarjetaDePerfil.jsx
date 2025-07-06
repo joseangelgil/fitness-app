@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react'
 
 const TarjetaDePerfil = () => {
 
-  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor } = useGlobalContext()
+  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor, esNuevoPerfil, setEsNuevoPerfil, perfiles, setPerfiles, setPerfilActivo } = useGlobalContext()
 
   const [ datosDePerfil, setDatosDePerfil ] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-datos`)) || {nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
-  const [ errores, setErrores ] = useState({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
-  const [ datosValidos, setDatosValidos ] = useState(true)
-  const [ openSnackbar, setOpenSnackbar ] = useState(true)
+  const [errores, setErrores] = useState({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
+  const [datosValidos, setDatosValidos] = useState(true)
+  const [openSnackbar, setOpenSnackbar] = useState(true)
+  const [snackbarMessage, setSnackbarMessage] = useState('Hay campos vacíos o con errores')
 
 
   // Modificar datos de perfil y controlar errores en campo
@@ -72,6 +73,7 @@ const TarjetaDePerfil = () => {
     const grasas = Number(datosDePerfil.grasas)
 
     if(!sonDatosValidos(peso, altura, edad, sexo, actividad, proteinas, grasas)) {
+      setSnackbarMessage('Hay campos vacíos o con errores')
       setDatosValidos(false)
       setTimeout(() => setOpenSnackbar(true), 100)
       return
@@ -150,7 +152,31 @@ const TarjetaDePerfil = () => {
     }
   }, [perfilActivo])
 
-  
+  const guardarEliminarPerfil = () => {
+    setDatosValidos(true)
+    if(esNuevoPerfil) {      
+      if(datosDePerfil.nombre === '' || perfiles.includes(datosDePerfil.nombre)) {
+        setSnackbarMessage('El nombre de perfil elegido esta vacio o ya existe')
+        setDatosValidos(false)
+        setTimeout(() => setOpenSnackbar(true), 100)
+        return
+      } else{        
+        setPerfiles(prevPerfiles => [...prevPerfiles, datosDePerfil.nombre])
+        localStorage.setItem(`${datosDePerfil.nombre}-datos`, JSON.stringify(datosDePerfil))
+        localStorage.setItem(`${datosDePerfil.nombre}-color`, JSON.stringify(activeColor))
+        localStorage.setItem(`${datosDePerfil.nombre}-menu`, JSON.stringify({'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []}))
+        setEsNuevoPerfil(false)
+      }
+    } else {
+      localStorage.removeItem(`${datosDePerfil.nombre}-datos`);
+      localStorage.removeItem(`${datosDePerfil.nombre}-color`);
+      localStorage.removeItem(`${datosDePerfil.nombre}-menu`);      
+      setPerfiles(perfiles.filter(perfil => perfil !== datosDePerfil.nombre))
+      setEsNuevoPerfil(true)
+      setPerfilActivo('')
+      setDatosDePerfil({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
+    }
+  }  
   const handleSnackbarClose = () => {
     setOpenSnackbar(false)
   }
@@ -181,7 +207,8 @@ const TarjetaDePerfil = () => {
       <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'space-between', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>
         <Stack gap='5px'>
           <label htmlFor="info-nombre">Nombre de Perfil</label>
-          {datosDePerfil.nombre ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className='casilla-info' id='info-nombre' type="text" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}          
+          {!esNuevoPerfil ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className={perfiles.includes(datosDePerfil.nombre) ? 'casilla-info campo-error' : 'casilla-info'} id='info-nombre' type="text" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}  
+          {(esNuevoPerfil && perfiles.includes(datosDePerfil.nombre)) && <Typography variant='caption' color='error'>El perfil ya existe</Typography>}        
         </Stack>
         <Stack gap='5px'>
           <label htmlFor="info-peso">Peso en Kg</label>
@@ -270,13 +297,8 @@ const TarjetaDePerfil = () => {
           </Stack>
         </Stack>
       </Box>
-      <Button variant='text' color='error' sx={{padding: '5px', fontSize: '1.1rem', m: '5px auto -20px'}}>Eliminar Perfil</Button>
-      {!datosValidos && <Snackbar
-                          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-                          open={openSnackbar}
-                          onClose={handleSnackbarClose}
-                          message='Hay campos vacíos o con errores'
-                        />}
+      <Button variant='text' color={esNuevoPerfil ? activeColor.name : 'error'} sx={{padding: '5px 10px', fontSize: '1.1rem', m: '5px auto -20px'}} onClick={() => guardarEliminarPerfil()}>{esNuevoPerfil ? 'Guardar Perfil' : 'Eliminar Perfil'}</Button>
+      {!datosValidos && <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackbar} onClose={handleSnackbarClose} message={snackbarMessage} />}
     </Stack>
   )
 }
