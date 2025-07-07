@@ -92,24 +92,11 @@ const TarjetaDePerfil = () => {
     setCantidadObjetivo(macros)
   }
 
-  const añadirSuperavit = () => {    
-
-    const nuevosHC = Math.round((cantidadObjetivo.kcal + 50 - (cantidadObjetivo.p * 4) - (cantidadObjetivo.g * 9))/4)
-
+  const añadirSuperavitODeficit = (valor) => {
+    const nuevosHC = Math.round((cantidadObjetivo.kcal + valor - (cantidadObjetivo.p * 4) - (cantidadObjetivo.g * 9))/4)
     setCantidadObjetivo(prevCantidad => (
       {...prevCantidad, 
-        kcal: cantidadObjetivo.kcal + 50,
-        hc: nuevosHC}
-    ))
-  }
-
-  const añadirDeficit = () => {
-
-    const nuevosHC = Math.round((cantidadObjetivo.kcal - 50 - (cantidadObjetivo.p * 4) - (cantidadObjetivo.g * 9))/4)
-
-    setCantidadObjetivo(prevCantidad => (
-      {...prevCantidad, 
-        kcal: cantidadObjetivo.kcal - 50,
+        kcal: cantidadObjetivo.kcal + valor,
         hc: nuevosHC}
     ))
   }
@@ -229,7 +216,7 @@ const TarjetaDePerfil = () => {
       <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'space-between', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>
         <Stack gap='5px'>
           <label htmlFor="info-nombre">Nombre de Perfil</label>
-          {!esNuevoPerfil ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className={perfiles.includes(datosDePerfil.nombre) ? 'casilla-info campo-error' : 'casilla-info'} id='info-nombre' type="text" maxlength="15" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}  
+          {!esNuevoPerfil ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className={perfiles.includes(datosDePerfil.nombre) ? 'casilla-info campo-error' : 'casilla-info'} id='info-nombre' type="text" maxLength="15" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}  
           {(esNuevoPerfil && perfiles.includes(datosDePerfil.nombre)) && <Typography variant='caption' color='error'>El perfil ya existe</Typography>}        
         </Stack>
         <Stack gap='5px'>
@@ -294,8 +281,8 @@ const TarjetaDePerfil = () => {
       </Stack>
       <Button variant='contained' color={activeColor.name} sx={{padding: '10px', width: '100%', fontSize: '1.1rem'}} onClick={() => calcularMacros()}>Calcular macronutrientes (Mifflin&nbsp;&&nbsp;St&nbsp;Jeor)</Button>
       <Stack direction='row' flexWrap='wrap' justifyContent='space-evenly' sx={{width: '100%', padding: '10px'}}>
-        <Button variant='text' color='error' sx={{padding: '10px', fontSize: '1.1rem'}} onClick={() => añadirDeficit()}>Añadir Déficit -50Kcal</Button>
-        <Button variant='text' color='success' sx={{padding: '10px', fontSize: '1.1rem'}} onClick={() => añadirSuperavit()}>Añadir Superávit +50Kcal</Button>
+        <Button variant='text' color='error' sx={{padding: '10px', fontSize: '1.1rem'}} onClick={() => añadirSuperavitODeficit(-50)}>Añadir Déficit -50Kcal</Button>
+        <Button variant='text' color='success' sx={{padding: '10px', fontSize: '1.1rem'}} onClick={() => añadirSuperavitODeficit(50)}>Añadir Superávit +50Kcal</Button>
       </Stack>
       <Box sx={{borderRadius: '20px', padding: '10px'}}>        
         <Typography variant='h5' textAlign='center'>OBJETIVO DE MACRONUTRIENTES DIARIO</Typography>
