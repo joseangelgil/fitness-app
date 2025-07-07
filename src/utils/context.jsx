@@ -16,10 +16,11 @@ const AppProvider = ({ children }) => {
     {id: uuidv4(), name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
   ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
-  const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})  
+  const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})  
   const [perfiles, setPerfiles] = useState(JSON.parse(localStorage.getItem('perfiles')) || [])
   const [perfilActivo, setPerfilActivo] = useState('')
   const [esNuevoPerfil, setEsNuevoPerfil] = useState(true)
+  const [esPerfilGuardado, setEsPerfilGuardado] = useState(true)
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
@@ -227,6 +228,21 @@ const AppProvider = ({ children }) => {
     })
   }, [])
 
+  // useEffect(() => {
+  //   let isMounted = true
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('https://es.openfoodfacts.net/api/v2/search')
+  //       const data = await response.json()
+  //       if(isMounted) console.log(data)
+  //     } catch(err) {
+  //         console.error(err)
+  //     }
+  //   }
+  //   fetchData()
+  //   return () => (isMounted = false)
+  // }, [])
+
 
   // Al cambiar el menu o el dia activo, calcular la suma total de macros
   useEffect(() => {
@@ -312,6 +328,8 @@ const AppProvider = ({ children }) => {
       setPerfiles,
       esNuevoPerfil,
       setEsNuevoPerfil,
+      esPerfilGuardado,
+      setEsPerfilGuardado,
       perfilActivo,
       setPerfilActivo,
       activeColor,

@@ -6,13 +6,14 @@ import { useGlobalContext } from '../utils/context'
 
 function Home() {
 
-  const { setPerfilActivo, activeColor, setEsNuevoPerfil, perfiles, setCantidadObjetivo, setMenu, setEsPerfilGuardado } = useGlobalContext()
+  const { setPerfilActivo, activeColor, setActiveColor, setEsNuevoPerfil, perfiles, setCantidadObjetivo, setMenu, setEsPerfilGuardado } = useGlobalContext()
 
   const crearNuevoPerfil = () => {
     setPerfilActivo('')
     setEsNuevoPerfil(true)
     setEsPerfilGuardado(false)
     setCantidadObjetivo({kcal: 0, hc: 0, p: 0, g: 0})
+    setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})
     setMenu({'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
   }
 
@@ -21,8 +22,8 @@ function Home() {
       width: '100%',
       height: '100vh',
       fontSize: '2rem',
-      backgroundColor: `${activeColor.claro}`,
-      color: `${activeColor.oscuro}`,
+      backgroundColor: `${perfiles.length ? activeColor.claro : '#ADD8E6'}`,
+      color: `${perfiles.length ? activeColor.oscuro : '#1976D2'}`,
       textAlign: 'center',
       padding: '30px'
     }}>
@@ -45,7 +46,7 @@ function Home() {
           <Typography variant='p' sx={{fontSize: {xs: '1.7rem', lg: '3rem'}}}>o</Typography>
           <Typography variant='p'><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}} onClick={() => crearNuevoPerfil()}>Crea uno nuevo</Link></Typography>
         </Stack> :
-        <Typography variant='p' className='home-p'><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}} onClick={() => crearNuevoPerfil()}>Crea tu perfil</Link></Typography>
+        <Typography variant='p' className='home-p'><Link className='link' to='/profile' style={{color: '#1976D2'}} onClick={() => crearNuevoPerfil()}>Crea tu perfil</Link></Typography>
       }
       
     </Stack>
