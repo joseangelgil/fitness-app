@@ -1,6 +1,6 @@
 import Navbar from '../components/Navbar'
 import DietTable from '../components/DietTable'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import Modal from '../components/Modal'
 import TotalTable from '../components/TotalTable'
@@ -9,10 +9,11 @@ const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado',
 
 function Diet() {
 
-  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo } = useGlobalContext()
 
   return(
-    <Box style={{padding: '10px'}}>
+    <Box style={{padding: '10px', position: 'relative'}}>
+      <Typography variant='p' color={activeColor.name} sx={{position: 'absolute', top: {xs: '45px', sm: '10px'}, right: '10px', fontSize: { lg: '1.1rem', xs: '0.9rem'}}}>Perfil - {perfilActivo}</Typography>
       <Navbar />
       <Box sx={{
         width: '90%',

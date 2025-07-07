@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 const TarjetaDePerfil = () => {
 
-  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor, esNuevoPerfil, setEsNuevoPerfil, perfiles, setPerfiles, setPerfilActivo } = useGlobalContext()
+  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor, esNuevoPerfil, setEsNuevoPerfil, perfiles, setPerfiles, setPerfilActivo, setEsPerfilGuardado } = useGlobalContext()
 
   const [ datosDePerfil, setDatosDePerfil ] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-datos`)) || {nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
   const [errores, setErrores] = useState({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
@@ -163,7 +163,8 @@ const TarjetaDePerfil = () => {
         localStorage.setItem(`${datosDePerfil.nombre}-color`, JSON.stringify(activeColor))
         localStorage.setItem(`${datosDePerfil.nombre}-menu`, JSON.stringify({'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []}))
         localStorage.setItem(`${datosDePerfil.nombre}-cantidad`, JSON.stringify({kcal: cantidadObjetivo.kcal, hc: cantidadObjetivo.hc, p: cantidadObjetivo.p, g: cantidadObjetivo.g}))
-        setEsNuevoPerfil(false)
+        setEsNuevoPerfil(false)        
+        setEsPerfilGuardado(true)
         setPerfilActivo(datosDePerfil.nombre)
       }
     } else {

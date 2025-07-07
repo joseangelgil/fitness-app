@@ -1,16 +1,17 @@
 import Icon from '../assets/vite.svg'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Stack, Typography } from '@mui/material'
 import './Home.css'
 import { useGlobalContext } from '../utils/context'
 
 function Home() {
 
-  const { setPerfilActivo, activeColor, setEsNuevoPerfil, perfiles, setCantidadObjetivo, setMenu } = useGlobalContext()
+  const { setPerfilActivo, activeColor, setEsNuevoPerfil, perfiles, setCantidadObjetivo, setMenu, setEsPerfilGuardado } = useGlobalContext()
 
   const crearNuevoPerfil = () => {
     setPerfilActivo('')
     setEsNuevoPerfil(true)
+    setEsPerfilGuardado(false)
     setCantidadObjetivo({kcal: 0, hc: 0, p: 0, g: 0})
     setMenu({'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
   }
@@ -38,7 +39,7 @@ function Home() {
           <Typography variant='p' sx={{fontSize: {xs: '1.7rem', lg: '3rem'}}}>Selecciona tu perfil:</Typography>   
           <ul>
             {perfiles.map(perfil => {
-              return (<li key={perfil} onClick={() => {setPerfilActivo(perfil); setEsNuevoPerfil(false)}}><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}}>{perfil}</Link></li>)
+              return (<li key={perfil} onClick={() => {setPerfilActivo(perfil); setEsNuevoPerfil(false); setEsPerfilGuardado(true)}}><Link className='link' to='/profile' style={{color: `${activeColor.oscuro}`}}>{perfil}</Link></li>)
             })}
           </ul>
           <Typography variant='p' sx={{fontSize: {xs: '1.7rem', lg: '3rem'}}}>o</Typography>
