@@ -23,6 +23,7 @@ const AppProvider = ({ children }) => {
   const [esPerfilGuardado, setEsPerfilGuardado] = useState(true)
   const [modal, setModal] = useState('none')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
+  const [mostrarMenuIngredientes, setMostrarMenuIngredientes] = useState(false)
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
   const [comidaOIngrediente, setComidaOIngrediente] = useState('')
   const [cantidadNuevoIngrediente, setCantidadNuevoIngrediente] = useState('')
@@ -119,6 +120,7 @@ const AppProvider = ({ children }) => {
   }
 
   const añadirIngrediente = (comida, name, cantidad, kcal, hc, p, g) => {
+
     const nuevoIngrediente = {
       id: uuidv4(), 
       name: name, 
@@ -232,9 +234,16 @@ const AppProvider = ({ children }) => {
   //   let isMounted = true
   //   const fetchData = async () => {
   //     try {
-  //       const response = await fetch('https://es.openfoodfacts.net/api/v2/search')
+  //       const response = await fetch('https://es.openfoodfacts.net/api/v2/search?categories_tags=pollo')
   //       const data = await response.json()
-  //       if(isMounted) console.log(data)
+
+  //       const products = data.products
+  //         let productInfo = []
+  //         for(let i = 0; i < data.products.length; i++) {
+  //           const { brands, product_name, image_thumb_url, nutriments, generic_name_es } = products[i]
+  //           productInfo.push({brands, product_name, generic_name_es, image_thumb_url, nutriments, generic_name_es})
+  //         }
+  //       if(isMounted) console.log(productInfo)
   //     } catch(err) {
   //         console.error(err)
   //     }
@@ -333,7 +342,9 @@ const AppProvider = ({ children }) => {
       perfilActivo,
       setPerfilActivo,
       activeColor,
-      setActiveColor
+      setActiveColor,
+      mostrarMenuIngredientes,
+      setMostrarMenuIngredientes
     }}>
       {children}
     </AppContext.Provider>

@@ -37,6 +37,13 @@ thead tr {
   outline-color:  red;  
 }
 
+.ingredient-card:active {
+  box-shadow: none;
+  border: 1px solid gray;
+  user-select: none;
+  padding: 5px;
+}
+
 @media (min-width: 600px) {
     th {
     min-width: 80px;

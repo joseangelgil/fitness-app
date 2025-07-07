@@ -12,7 +12,7 @@ function Diet() {
   const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo } = useGlobalContext()
 
   return(
-    <Box style={{padding: '10px', position: 'relative'}}>
+    <Box style={{padding: '10px', position: 'relative', minHeight: '100vh'}}>
       <Typography variant='p' color={activeColor.name} sx={{position: 'absolute', top: {xs: '45px', sm: '10px'}, right: '10px', fontSize: { lg: '1.1rem', xs: '0.9rem'}}}>Perfil - {perfilActivo}</Typography>
       <Navbar />
       <Box sx={{

@@ -17,7 +17,7 @@ const TarjetaModificarIngrediente = () => {
             p: data.find(item => item.name === ingrediente.name).p,
             g: data.find(item => item.name === ingrediente.name).g
           }
-        }
+        } 
       })
     }
   })
@@ -64,7 +64,7 @@ const TarjetaModificarIngrediente = () => {
             return
           }  
           modificarIngrediente(comidaSeleccionada, ingredienteSeleccionado, cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
-          setDisplay()
+          setDisplay();
           }}>Modificar</Button>
       </Stack>
     </Stack>
