@@ -1,16 +1,14 @@
-import { Stack, Typography, Button, Box } from '@mui/material'
+import { Stack, Box } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import { useState, useEffect } from 'react'
 import Ingrediente from './Ingrediente'
-import TarjetaNuevoIngrediente from './TarjetaNuevoIngrediente'
 
 const IngredientesMenu = () => {
 
-  const { data, ingredienteSeleccionado, modal, menu, comidaSeleccionada, activeWeekDay } = useGlobalContext()
+  const { data } = useGlobalContext()
   const [search, setSearch] = useState('')
   const [results, setResults] = useState([])
   const [showDropdown, setShowDropdown] = useState(false)
-  const [macros, setMacros] = useState({})
 
   const renderDropdown = () => {
     return (
@@ -42,7 +40,7 @@ const IngredientesMenu = () => {
   }
 
   useEffect(() => {
-    const searching = data.filter(item => item.name.startsWith(search))
+    const searching = data.filter(item => item.name.toLowerCase().includes(search.toLowerCase().trim()))
     if(searching.length && searching[0].name !== search && search) {
       setResults(searching)
       setShowDropdown(true)
@@ -52,15 +50,15 @@ const IngredientesMenu = () => {
       setShowDropdown(false)
     }
 
+    let macros;
+
     if(data.find(item => item.name === search.trim())) {
-      setMacros(prevMacros => (
-        {...prevMacros, 
-          kcal: data.find(item => item.name === search.trim()).kcal,
-          hc: data.find(item => item.name === search.trim()).hc,
-          p: data.find(item => item.name === search.trim()).p,
-          g: data.find(item => item.name === search.trim()).g, 
-        }
-      ))      
+      macros = {
+        kcal: data.find(item => item.name === search.trim()).kcal,
+        hc: data.find(item => item.name === search.trim()).hc,
+        p: data.find(item => item.name === search.trim()).p,
+        g: data.find(item => item.name === search.trim()).g, 
+      }     
     }
   }, [search])  
 

@@ -9,7 +9,7 @@ const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado',
 
 function Diet() {
 
-  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo, setMostrarMenuIngredientes } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo } = useGlobalContext()
 
   return(
     <Box style={{padding: '10px', position: 'relative', minHeight: '100vh'}}>

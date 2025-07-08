@@ -1,12 +1,11 @@
 import { Stack } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import { Button, Typography } from '@mui/material'
-import { useState } from 'react'
 import IngredientesMenu from './IngredientesMenu'
 
 const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
 
-  const { setDisplay, setComidaOIngrediente, setComidaSeleccionada, setIngredienteSeleccionado, setNombreNuevaComida, setHoraNuevaComida, mostrarMenuIngredientes, setMostrarMenuIngredientes, setCantidadNuevoIngrediente, activeColor, modal, menu, activeWeekDay, comidaSeleccionada } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, setComidaSeleccionada, setIngredienteSeleccionado, setNombreNuevaComida, setHoraNuevaComida, mostrarMenuIngredientes, setMostrarMenuIngredientes, setCantidadNuevoIngrediente, activeColor, comidaSeleccionada } = useGlobalContext()
 
   const handleComidaAction = ()  => {
     setComidaOIngrediente('modificarComida');
@@ -17,6 +16,7 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
   }
 
   const handleIngredienteAction = (ingredienteId)  => {
+    if(comidaSeleccionada !== comidaId) setMostrarMenuIngredientes(false)
     setComidaOIngrediente('modificarIngrediente');    
     setComidaSeleccionada(comidaId)
     setCantidadNuevoIngrediente(() => (ingredientes.find(ingrediente => ingrediente.id === ingredienteId).cantidad))

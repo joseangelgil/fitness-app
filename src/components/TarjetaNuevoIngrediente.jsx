@@ -1,9 +1,11 @@
 import { Stack, Typography, Button } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 
-const TarjetaNuevoIngrediente = ({ macros }) => {
+const TarjetaNuevoIngrediente = () => {
 
-  const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, ingredienteSeleccionado, setIngredienteSeleccionado, data, setMostrarMenuIngredientes } = useGlobalContext()
+  const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, ingredienteSeleccionado, data } = useGlobalContext()
+
+  let macros;
   
   data.forEach(ingrediente => {
     if(ingrediente.id === ingredienteSeleccionado) {

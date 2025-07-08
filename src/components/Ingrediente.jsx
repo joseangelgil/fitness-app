@@ -15,7 +15,7 @@ const Ingrediente = ({ search }) => {
     <Stack direction='row' alignItems='flex-start' justifyContent='center' flexWrap='wrap' gap='50px' padding='50px 10px'>
       {search ? 
         data.map(item => {
-          if(item.name.startsWith(search.trim())) {
+          if(item.name.toLowerCase().includes(search.toLowerCase().trim())) {
             return (
               <Stack key={item.id} className='ingredient-card' justifyContent= 'space-evenly' alignItems='center' width='250px' height='350px' sx={{borderRadius:'10px', boxShadow:'0 2px 3px 1px rgba(0,0,0,0.7)', cursor: 'pointer'}} onClick={() => handleIngredientClick(item.id)}>
                 <img src="#" alt="img" width='120px' height='120px' style={{border: '1px solid black'}}/>

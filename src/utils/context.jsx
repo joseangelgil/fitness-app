@@ -207,7 +207,6 @@ const AppProvider = ({ children }) => {
     })
     setCantidadNuevoIngrediente('')
     setIngredienteSeleccionado('')
-    setComidaSeleccionada('')
     setDisplay()
   }
 
