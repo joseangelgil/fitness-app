@@ -54,7 +54,9 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
               )
           }))}
           <tr>
-            <th><Button variant='text' color={activeColor.name} sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setMostrarMenuIngredientes(true);}}>+ añadir ingrediente</Button></th>
+            {mostrarMenuIngredientes && comidaId === comidaSeleccionada ? 
+            <th><Button variant='text' color='error' sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setMostrarMenuIngredientes(false);}}>- cerrar menu de ingredientes</Button></th> :
+            <th><Button variant='text' color={activeColor.name} sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setMostrarMenuIngredientes(true);}}>+ añadir ingrediente</Button></th>}
             <th>{macros?.kcal || 0}</th>
             <th>{macros?.hc || 0}</th>
             <th>{macros?.p || 0}</th>

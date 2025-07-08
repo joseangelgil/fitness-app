@@ -57,7 +57,6 @@ const TarjetaNuevoIngrediente = ({ macros }) => {
           }  
           añadirIngrediente(comidaSeleccionada, desplegarInfoIngrediente(), cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
           setDisplay();
-          setMostrarMenuIngredientes(false)
           }}>Aceptar</Button>
       </Stack>
     </Stack>
