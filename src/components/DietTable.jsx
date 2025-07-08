@@ -6,7 +6,7 @@ import IngredientesMenu from './IngredientesMenu'
 
 const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
 
-  const { setDisplay, setComidaOIngrediente, setComidaSeleccionada, setIngredienteSeleccionado, setNombreNuevaComida, setHoraNuevaComida, mostrarMenuIngredientes, setMostrarMenuIngredientes, setCantidadNuevoIngrediente, activeColor } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, setComidaSeleccionada, setIngredienteSeleccionado, setNombreNuevaComida, setHoraNuevaComida, mostrarMenuIngredientes, setMostrarMenuIngredientes, setCantidadNuevoIngrediente, activeColor, modal, menu, activeWeekDay, comidaSeleccionada } = useGlobalContext()
 
   const handleComidaAction = ()  => {
     setComidaOIngrediente('modificarComida');
@@ -54,7 +54,7 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
               )
           }))}
           <tr>
-            <th><Button variant='text' color={activeColor.name} sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setMostrarMenuIngredientes(true)}}>+ añadir ingrediente</Button></th>
+            <th><Button variant='text' color={activeColor.name} sx={{ fontSize: { lg: '1rem', sm: '0.8rem', xs: '0.6rem'}}} value={comidaId} onClick={(e) => {setComidaSeleccionada(e.target.value); setMostrarMenuIngredientes(true);}}>+ añadir ingrediente</Button></th>
             <th>{macros?.kcal || 0}</th>
             <th>{macros?.hc || 0}</th>
             <th>{macros?.p || 0}</th>
@@ -62,7 +62,7 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
           </tr>
         </tbody>
       </table>
-      {mostrarMenuIngredientes && <IngredientesMenu />}
+      {mostrarMenuIngredientes && comidaId === comidaSeleccionada && <IngredientesMenu />} 
     </Stack>
   )
 }

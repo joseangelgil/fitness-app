@@ -6,7 +6,7 @@ const TarjetaDePerfil = () => {
 
   const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor, esNuevoPerfil, setEsNuevoPerfil, perfiles, setPerfiles, setPerfilActivo, setEsPerfilGuardado } = useGlobalContext()
 
-  const [ datosDePerfil, setDatosDePerfil ] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-datos`)) || {nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
+  const [datosDePerfil, setDatosDePerfil] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-datos`)) || {nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
   const [errores, setErrores] = useState({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
   const [datosValidos, setDatosValidos] = useState(true)
   const [openSnackbar, setOpenSnackbar] = useState(true)

@@ -6,7 +6,7 @@ import TarjetaNuevoIngrediente from './TarjetaNuevoIngrediente'
 
 const IngredientesMenu = () => {
 
-  const { data, ingredienteSeleccionado, modal } = useGlobalContext()
+  const { data, ingredienteSeleccionado, modal, menu, comidaSeleccionada, activeWeekDay } = useGlobalContext()
   const [search, setSearch] = useState('')
   const [results, setResults] = useState([])
   const [showDropdown, setShowDropdown] = useState(false)
@@ -67,7 +67,6 @@ const IngredientesMenu = () => {
   return (
     <Stack justifyContent= 'space-between' alignItems='center' sx={{
       width: '100%',
-      minHeight: '100vh',
       backgroundColor: 'white',
       padding: '25px',
       textAlign: 'center'
@@ -76,8 +75,7 @@ const IngredientesMenu = () => {
         <input style={{padding: '20px 10px', fontSize: '1.1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
         {renderDropdown()}
       </Box>
-      <Ingrediente />
-      {(ingredienteSeleccionado && modal === 'block') && <TarjetaNuevoIngrediente macros={macros}/>}
+      <Ingrediente search={search}/>
     </Stack>
   )
 }

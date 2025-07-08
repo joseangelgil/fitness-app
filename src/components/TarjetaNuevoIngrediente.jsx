@@ -1,9 +1,9 @@
 import { Stack, Typography, Button } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 
-const TarjetaNuevoIngrediente = (macros) => {
+const TarjetaNuevoIngrediente = ({ macros }) => {
 
-  const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, ingredienteSeleccionado, quitarIngrediente, data, setMostrarMenuIngredientes } = useGlobalContext()
+  const { añadirIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, ingredienteSeleccionado, setIngredienteSeleccionado, data, setMostrarMenuIngredientes } = useGlobalContext()
   
   data.forEach(ingrediente => {
     if(ingrediente.id === ingredienteSeleccionado) {
@@ -18,13 +18,12 @@ const TarjetaNuevoIngrediente = (macros) => {
 
   const desplegarInfoIngrediente = () => {
     let nombre = ''
-    let cantidad = ''
     data.forEach(item => {
       if(item.id === ingredienteSeleccionado) {
         nombre = item.name
         }
     })
-    return {nombre, cantidad}
+    return nombre
   }
 
   return (
@@ -42,7 +41,7 @@ const TarjetaNuevoIngrediente = (macros) => {
       padding: '25px',
       textAlign: 'center'
     }}>
-      <Typography variant='h5'>{desplegarInfoIngrediente().nombre}</Typography>
+      <Typography variant='h5'>{desplegarInfoIngrediente()}</Typography>
       <Typography variant='p'>Macronutrientes por 100g</Typography>
       <Typography variant='p'>{macros.kcal} Kcal</Typography>
       <Typography variant='p'>{macros.hc}g HC</Typography>
@@ -50,13 +49,13 @@ const TarjetaNuevoIngrediente = (macros) => {
       <Typography variant='p'>{macros.g}g Grasas</Typography>
       <input style={{width: '150px', padding: '20px 10px', fontSize: '1.1rem'}} type="number" min='0' placeholder='Cantidad en gramos' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
       <Stack direction='row' justifyContent='space-evenly' gap='50px'>
-        <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {quitarIngrediente(comidaSeleccionada, ingredienteSeleccionado)}}>Cancelar</Button>
+        <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {setDisplay(); setCantidadNuevoIngrediente('');}}>Cancelar</Button>
         <Button variant='outlined' sx={{padding: '10px 20px'}} onClick={() => {
           if(!cantidadNuevoIngrediente || cantidadNuevoIngrediente < 1) {
             alert('Por favor, introduce una cantidad para continuar.'); 
             return
           }  
-          añadirIngrediente(comidaSeleccionada, desplegarInfoIngrediente().nombre, cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
+          añadirIngrediente(comidaSeleccionada, desplegarInfoIngrediente(), cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
           setDisplay();
           setMostrarMenuIngredientes(false)
           }}>Aceptar</Button>
