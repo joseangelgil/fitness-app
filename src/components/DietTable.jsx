@@ -19,7 +19,7 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
     if(comidaSeleccionada !== comidaId) setMostrarMenuIngredientes(false)
     setComidaOIngrediente('modificarIngrediente');    
     setComidaSeleccionada(comidaId)
-    setCantidadNuevoIngrediente(() => (ingredientes.find(ingrediente => ingrediente.id === ingredienteId).cantidad))
+    setCantidadNuevoIngrediente(() => (ingredientes.find(ingrediente => ingrediente.id === ingredienteId).cantidad).replace(/^0+/, ''))
     setIngredienteSeleccionado(ingredienteId)    
     setDisplay()
   }
@@ -45,7 +45,7 @@ const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {
           {ingredientes.map((ingrediente => {
               return (
                 <tr key={ingrediente.id} onClick={() => {handleIngredienteAction(ingrediente.id)}} style={{ cursor: 'pointer'}}>
-                  <td>{ingrediente.cantidad}g {ingrediente.name}</td>
+                  <td>{ingrediente.cantidad.replace(/^0+/, '')}g {ingrediente.name}</td>
                   <td>{ingrediente.kcal}</td>
                   <td>{ingrediente.hc}</td>
                   <td>{ingrediente.p}</td>

@@ -33,7 +33,7 @@ const TotalTable = () => {
             <td>{sumaDiariaTotal[activeWeekDay].g}</td>
           </tr>
           <tr height='30px'>
-            <th>Necesario hasta objetivo</th>
+            <th>Restante hasta objetivo</th>
             <th>{Number((cantidadObjetivo.kcal - sumaDiariaTotal[activeWeekDay].kcal || 0).toFixed(1))}</th>
             <th>{Number((cantidadObjetivo.hc - sumaDiariaTotal[activeWeekDay].hc || 0).toFixed(1))}</th>
             <th>{Number((cantidadObjetivo.p - sumaDiariaTotal[activeWeekDay].p || 0).toFixed(1))}</th>

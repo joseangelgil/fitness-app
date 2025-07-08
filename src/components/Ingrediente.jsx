@@ -17,7 +17,7 @@ const Ingrediente = ({ search }) => {
         data.map(item => {
           if(item.name.toLowerCase().includes(search.toLowerCase().trim())) {
             return (
-              <Stack key={item.id} className='ingredient-card' justifyContent= 'space-evenly' alignItems='center' width='250px' height='350px' sx={{borderRadius:'10px', boxShadow:'0 2px 3px 1px rgba(0,0,0,0.7)', cursor: 'pointer'}} onClick={() => handleIngredientClick(item.id)}>
+              <Stack key={item.id} className='ingredient-card' justifyContent= 'space-evenly' alignItems='center' width='250px' height='350px' sx={{borderRadius:'10px', boxShadow:'0 2px 3px 1px rgba(0,0,0,0.7)', cursor: 'pointer', fontSize: '1.1rem'}} onClick={() => handleIngredientClick(item.id)}>
                 <img src="#" alt="img" width='120px' height='120px' style={{border: '1px solid black'}}/>
                 <Typography variant="h6">{item.name}</Typography>
                 <Typography variant='p'>Macronutrientes por 100g</Typography>
@@ -30,7 +30,7 @@ const Ingrediente = ({ search }) => {
           }}) :      
         data.map(item => {
           return (
-            <Stack key={item.id} className='ingredient-card' justifyContent= 'space-evenly' alignItems='center' width='250px' height='350px' sx={{borderRadius:'10px', boxShadow:'0 2px 3px 1px rgba(0,0,0,0.7)', cursor: 'pointer'}} onClick={() => handleIngredientClick(item.id)}>
+            <Stack key={item.id} className='ingredient-card' justifyContent= 'space-evenly' alignItems='center' width='250px' height='350px' sx={{borderRadius:'10px', boxShadow:'0 2px 3px 1px rgba(0,0,0,0.7)', cursor: 'pointer', fontSize: '1.1rem'}} onClick={() => handleIngredientClick(item.id)}>
               <img src="#" alt="img" width='120px' height='120px' style={{border: '1px solid black'}}/>
               <Typography variant="h6">{item.name}</Typography>
               <Typography variant='p'>Macronutrientes por 100g</Typography>
