@@ -20,12 +20,12 @@ const IngredientesMenu = () => {
         flexWrap: 'nowrap',
         position: 'absolute', 
         top: '55px', 
-        left: '0', 
+        left: '12px', 
         zIndex: 3, 
         backgroundColor: 'white', 
         border: '0.1px solid #444',
         borderRadius: '5px',
-        width: '242px',
+        width: '219px',
         maxHeight: '150px',
         overflowY: 'auto',
         margin: 0
@@ -67,7 +67,9 @@ const IngredientesMenu = () => {
       width: '100%',
       backgroundColor: 'white',
       padding: '25px',
-      textAlign: 'center'
+      textAlign: 'center',
+      maxHeight: {lg: '900px', sm: '450px', xs: '400px'},
+      overflow: 'hidden'
     }}>
       <Box width='242px' position='relative' margin='0 auto'>
         <input style={{padding: '20px 10px', fontSize: '1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
