@@ -104,22 +104,22 @@ const TarjetaDePerfil = () => {
   const cambiarColorDelTema = (color) => {
     switch(color) {
       case 'primary':
-        setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})
+        setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6', suave: '#D6ECFA'})
         break
       case 'error':
-        setActiveColor({name: 'error', oscuro: '#D32F2F', claro: '#FFB6C1'})
+        setActiveColor({name: 'error', oscuro: '#D32F2F', claro: '#FFB6C1', suave: '#FFD9E1'})
         break
       case 'success':
-        setActiveColor({name: 'success', oscuro: '#2E7D32', claro: '#A8E6A3'})
+        setActiveColor({name: 'success', oscuro: '#2E7D32', claro: '#A8E6A3', suave: '#D0F4DE'})
         break
       case 'warning':
-        setActiveColor({name: 'warning', oscuro: '#ED6C02', claro: '#FFE7A3'})
+        setActiveColor({name: 'warning', oscuro: '#ED6C02', claro: '#FFE7A3', suave: '#FFF7C2'})
         break
       case 'secondary':
-        setActiveColor({name: 'secondary', oscuro: '#9C27B0', claro: '#D9C7FF'})
+        setActiveColor({name: 'secondary', oscuro: '#9C27B0', claro: '#D9C7FF', suave: '#E5E0FF'})
         break
       default:
-        setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})
+        setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6', suave: '#D6ECFA'})
         break
     }
   }

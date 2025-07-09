@@ -16,7 +16,7 @@ const AppProvider = ({ children }) => {
     {id: uuidv4(), name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
   ])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
-  const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})  
+  const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6', suave: '#D6ECFA'})  
   const [perfiles, setPerfiles] = useState(JSON.parse(localStorage.getItem('perfiles')) || [])
   const [perfilActivo, setPerfilActivo] = useState('')
   const [esNuevoPerfil, setEsNuevoPerfil] = useState(true)
@@ -292,7 +292,7 @@ const AppProvider = ({ children }) => {
   // Cuando cambie el perfil, devolver los datos de menu y color de ese perfil
   useEffect(() => {
     setMenu(JSON.parse(localStorage.getItem(`${perfilActivo}-menu`)) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
-    setActiveColor(JSON.parse(localStorage.getItem(`${perfilActivo}-color`)) || {name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6'})
+    setActiveColor(JSON.parse(localStorage.getItem(`${perfilActivo}-color`)) || {name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6', suave: '#D6ECFA'})
     setCantidadObjetivo(JSON.parse(localStorage.getItem(`${perfilActivo}-cantidad`)) || {kcal: 0, hc: 0, p: 0, g: 0})
   }, [perfilActivo])
 

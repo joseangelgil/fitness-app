@@ -13,7 +13,7 @@ function Home() {
     setEsNuevoPerfil(true)
     setEsPerfilGuardado(false)
     setCantidadObjetivo({kcal: 0, hc: 0, p: 0, g: 0})
-    setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6'})
+    setActiveColor({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6', suave: '#D6ECFA'})
     setMenu({'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
   }
 
