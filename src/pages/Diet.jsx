@@ -9,7 +9,7 @@ const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado',
 
 function Diet() {
 
-  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo, setMostrarMenuIngredientes } = useGlobalContext()
 
   return(
     <Box style={{padding: '10px', position: 'relative', minHeight: '100vh'}}>
@@ -22,7 +22,7 @@ function Diet() {
       }}>
         {weekDays.map((weekDay) => {
           return (
-            <Button key={weekDay} value={weekDay} color={activeColor.name} onClick={() => changeActiveButton(weekDay)} variant={chooseVariant(weekDay)} sx={{ margin: '5px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>{weekDay}</Button>
+            <Button key={weekDay} value={weekDay} color={activeColor.name} onClick={() => {changeActiveButton(weekDay); setMostrarMenuIngredientes(false);}} variant={chooseVariant(weekDay)} sx={{ margin: '5px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}}>{weekDay}</Button>
           )
         })}
         <Button variant='text' color={activeColor.name} sx={{display: 'block', mt: '15px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('nuevaComida'); setDisplay();}}>+ Añadir comida</Button>
