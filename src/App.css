@@ -49,3 +49,17 @@ thead tr {
     min-width: 80px;
   }
 }
+
+@media (max-width: 900px) {
+  .ingredient-card img {
+      width: 105px;
+      height: 105px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ingredient-card img {
+      width: 90px;
+      height: 90px;
+  }
+}
