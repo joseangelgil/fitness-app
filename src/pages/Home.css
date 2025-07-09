@@ -9,12 +9,12 @@ ul {
 li {
   list-style: none;
   cursor: pointer;
-  margin: 0 10px;
+  margin: 0 15px;
 }
 
 .link {
   text-decoration: none;
-  font-size: 1.7rem;
+  font-size: 1.8rem;
 }
 
 .home-p {
@@ -23,6 +23,12 @@ li {
 
 .home {
   justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .link {
+    font-size: 2.4rem !important;
+  }
 }
 
 @media (min-width: 1200px) {
