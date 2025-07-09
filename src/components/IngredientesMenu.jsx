@@ -70,7 +70,7 @@ const IngredientesMenu = () => {
       textAlign: 'center'
     }}>
       <Box width='242px' position='relative' margin='0 auto'>
-        <input style={{padding: '20px 10px', fontSize: '1.1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
+        <input style={{padding: '20px 10px', fontSize: '1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
         {renderDropdown()}
       </Box>
       <Ingrediente search={search}/>
