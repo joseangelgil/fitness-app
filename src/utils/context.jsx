@@ -5,7 +5,7 @@ const AppContext = createContext()
 
 const AppProvider = ({ children }) => {
 
-  const [data, setData] = useState([
+  const [data, setData] = useState(JSON.parse(localStorage.getItem('data')) || [
     {id: uuidv4(), url:'', name: 'Queso', kcal: '210', hc: '2', p: '15', g: '18'},
     {id: uuidv4(), url:'', name: 'Espaguetis', kcal: '120', hc: '50', p: '7', g: '11'},
     {id: uuidv4(), url:'', name: 'Bacon', kcal: '250', hc: '0', p: '12', g: '22'},
@@ -295,6 +295,10 @@ const AppProvider = ({ children }) => {
     setActiveColor(JSON.parse(localStorage.getItem(`${perfilActivo}-color`)) || {name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6', suave: '#D6ECFA'})
     setCantidadObjetivo(JSON.parse(localStorage.getItem(`${perfilActivo}-cantidad`)) || {kcal: 0, hc: 0, p: 0, g: 0})
   }, [perfilActivo])
+
+  useEffect(() => {
+    localStorage.setItem('data', JSON.stringify(data))
+  }, [data])
 
   return (
     <AppContext.Provider value={{ 

@@ -44,6 +44,13 @@ thead tr {
   padding: 5px;
 }
 
+.crearIngredienteInput {
+  padding: 5px; 
+  width: 80px; 
+  font-size: 1.1rem; 
+  text-align: center
+}
+
 @media (min-width: 600px) {
     th {
     min-width: 80px;
