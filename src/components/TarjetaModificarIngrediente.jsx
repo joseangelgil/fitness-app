@@ -53,7 +53,7 @@ const TarjetaModificarIngrediente = () => {
       <Typography variant='p'>{macros.hc}g HC</Typography>
       <Typography variant='p'>{macros.p}g Proteinas</Typography>
       <Typography variant='p'>{macros.g}g Grasas</Typography>
-      <input style={{width: '150px', padding: '20px 10px', fontSize: '1.1rem'}} type="number" min='0' placeholder='Cantidad en g' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
+      <input style={{width: '150px', padding: '20px 10px', fontSize: '1.1rem', textAlign: 'center'}} type="number" min='0' placeholder='Cantidad en g' value={cantidadNuevoIngrediente} onChange={(e) => setCantidadNuevoIngrediente(e.target.value)} />
       <Stack direction='row' justifyContent='space-evenly' gap='50px'>
         <Button variant='outlined' color='error' sx={{padding: '10px 20px'}} onClick={() => {quitarIngrediente(comidaSeleccionada, ingredienteSeleccionado)}}>Eliminar</Button>
         <Button variant='outlined' sx={{padding: '10px 20px'}} onClick={(e) => {
