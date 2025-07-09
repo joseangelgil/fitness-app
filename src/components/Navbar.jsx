@@ -1,14 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Stack, Button } from '@mui/material'
 import Icon from '../assets/vite.svg'
 import { useGlobalContext } from '../utils/context'
 
 function Navbar() {
 
-  const { esPerfilGuardado } = useGlobalContext()
+  const { esPerfilGuardado, activeColor, setMostrarMenuIngredientes } = useGlobalContext()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const comprobarGuardadoPerfil = (ruta) => {
+    setMostrarMenuIngredientes(false)
     if(!esPerfilGuardado) {
       if(!confirm('El perfil no se ha guardado, ¿quieres continuar sin guardar?')) return
     }
@@ -18,11 +20,11 @@ function Navbar() {
   return(    
     <Stack direction='row' mb='30px'>
       <img src={Icon} alt="Icon" />                
-      <Button variant='text' color='primary' onClick={() => comprobarGuardadoPerfil('/')}>INICIO</Button>         
+      <Button variant='text' color={activeColor.name} onClick={() => comprobarGuardadoPerfil('/')}>INICIO</Button>         
       <Link to='/profile'>
-        <Button variant='text' color='success'>PERFIL</Button>
+        <Button variant='text' color={activeColor.name} sx={{ boxShadow: location.pathname === '/profile' ? `inset 0 -3px 0 0 ${activeColor.oscuro}`: 'none' }}>PERFIL</Button>
       </Link>
-      <Button variant='text' color='error' onClick={() => comprobarGuardadoPerfil('/diet')}>DIETA</Button>      
+      <Button variant='text' color={activeColor.name} sx={{ boxShadow: location.pathname === '/diet' ? `inset 0 -3px 0 0 ${activeColor.oscuro}`: 'none' }} onClick={() => comprobarGuardadoPerfil('/diet')}>DIETA</Button>           
     </Stack>    
   )
 }
