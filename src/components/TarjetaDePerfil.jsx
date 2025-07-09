@@ -186,9 +186,9 @@ const TarjetaDePerfil = () => {
     setOpenSnackbar(false)
   }
 
-  const unirNombreConEspacios = (nombre) => {
-    return (nombre.replace(/\s/g, '\u00A0'))
-  }
+  // const unirNombreConEspacios = (nombre) => {
+  //   return (nombre.replace(/\s/g, '\u00A0'))
+  // }
 
   return (
     <Stack justifyContent='space-around' sx={{
@@ -203,7 +203,7 @@ const TarjetaDePerfil = () => {
       position: 'relative',
       border: `3px solid ${activeColor.oscuro}`
     }}>
-      <Typography variant='h5' sx={{position: 'absolute', top: '20px', left: '30px'}}>Información de Perfil - {unirNombreConEspacios(datosDePerfil.nombre)}</Typography>
+      <Typography variant='h5' sx={{position: 'absolute', top: {sm: '20px', xs: '10px'}, left: {sm: '30px', xs: '15px'}}}>Información de Perfil - {datosDePerfil.nombre}</Typography>
       <Stack direction='row' alignItems='center' gap='10px' flexWrap='wrap' sx={{justifyContent: {xs: 'center', sm: 'flex-end'}}}>
           <Typography variant='p' sx={{fontSize: '1.1rem'}}>Color del tema: </Typography>
           <Stack direction='row' gap='10px'>
@@ -217,7 +217,7 @@ const TarjetaDePerfil = () => {
       <Stack direction='row' flexWrap='wrap' sx={{padding: '20px 0', justifyContent: {sm: 'space-between', xs:'center'}, gap: {xs: '20px', sm: 'auto' }}}>
         <Stack gap='5px'>
           <label htmlFor="info-nombre">Nombre de Perfil</label>
-          {!esNuevoPerfil ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className={perfiles.includes(datosDePerfil.nombre) ? 'casilla-info campo-error' : 'casilla-info'} id='info-nombre' type="text" maxLength="15" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value}))}/>}  
+          {!esNuevoPerfil ? <Typography variant='p' sx={{fontSize: '1.4rem', textAlign: 'center'}}>{datosDePerfil.nombre}</Typography> : <input className={perfiles.includes(datosDePerfil.nombre) ? 'casilla-info campo-error' : 'casilla-info'} id='info-nombre' type="text" maxLength="15" value={datosDePerfil.nombre} onChange={(e) => setDatosDePerfil(prevDatos => ({...prevDatos, nombre: e.target.value.trim()}))}/>}  
           {(esNuevoPerfil && perfiles.includes(datosDePerfil.nombre)) && <Typography variant='caption' color='error'>El perfil ya existe</Typography>}        
         </Stack>
         <Stack gap='5px'>
