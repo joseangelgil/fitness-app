@@ -1,6 +1,5 @@
-import { Stack, Typography, Button } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import { useGlobalContext } from "../utils/context"
-import { BsSearch } from "react-icons/bs"
 import Icon from '../assets/icon2.png'
 
 const Ingrediente = ({ search }) => {
@@ -14,11 +13,11 @@ const Ingrediente = ({ search }) => {
   }
 
   return (
-    <Stack direction='row' alignItems='flex-start' justifyContent='center' flexWrap='wrap' gap='50px' padding='40px 10px 10px'>
+    <Stack direction='row' alignItems='flex-start' justifyContent='center' flexWrap='wrap' gap='50px' padding='40px 10px 10px' sx={{ maxHeight: {lg: '400px', sm: '350px', xs: '300px'},
+      overflow: 'hidden'}}>
       {search ? (
         data.filter(item => item.name.toLowerCase().includes(search.toLowerCase().trim())).length ?
-          data.map(item => {
-            if(item.name.toLowerCase().includes(search.toLowerCase().trim())) {
+          data.filter(item => item.name.toLowerCase().includes(search.toLowerCase().trim())).map(item => {
               return (
                 <Stack key={item.id} className='ingredient-card' justifyContent= 'space-evenly' alignItems='center' sx={{padding: '5px', width: {lg: '250px', sm: '225px', xs: '200px'}, height:{ lg: '350px', sm: '300px', xs: '250px'}, borderRadius:'10px', boxShadow:'0 2px 3px 1px rgba(0,0,0,0.7)', backgroundColor: `${activeColor.suave}`, cursor: 'pointer', fontSize: { lg: '1.1rem', sm: '0.95rem', xs: '0.8rem'}}} onClick={() => handleIngredientClick(item.id)}>
                   <img src={item.url ? item.url : Icon} alt="img" width='120px' height='120px' style={{borderRadius: '10px'}}/>
@@ -30,15 +29,9 @@ const Ingrediente = ({ search }) => {
                   <Typography variant='p'>{item.g}g Grasas</Typography>
                 </Stack>
               )
-            }
           }) : 
-            <Stack gap='25px'>
-              <Typography variant="p" sx={{fontSize: { lg: '1.1rem', sm:'0.95rem', xs: '0.8rem'}, textTransform: 'uppercase'}}>No hay coincidencias entre los ingredientes guardados</Typography>
-              <Stack direction='row' justifyContent='center' gap='20px'>
-                <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}}><BsSearch style={{marginRight: '8px'}}/> Buscar en OpenFoodFacts</Button>
-                <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('crearIngrediente'); setDisplay();}}>+ crear nuevo ingrediente</Button>
-              </Stack>
-            </Stack>
+            
+          <Typography variant="p" sx={{fontSize: { lg: '1.1rem', sm:'0.95rem', xs: '0.8rem'}, textTransform: 'uppercase'}}>No hay coincidencias entre los ingredientes guardados</Typography>
         ) :      
         data.map(item => {
           return (

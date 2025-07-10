@@ -22,6 +22,8 @@ const AppProvider = ({ children }) => {
   const [esNuevoPerfil, setEsNuevoPerfil] = useState(true)
   const [esPerfilGuardado, setEsPerfilGuardado] = useState(true)
   const [modal, setModal] = useState('none')
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('Hay campos vacíos o con errores')
   const [nombreNuevaComida, setNombreNuevaComida] = useState('')
   const [mostrarMenuIngredientes, setMostrarMenuIngredientes] = useState(false)
   const [horaNuevaComida, setHoraNuevaComida] = useState('')
@@ -53,6 +55,10 @@ const AppProvider = ({ children }) => {
   const setDisplay = () => {
     if(modal === 'none') setModal('block')
     else setModal('none')
+  }
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false)
   }
 
   const añadirComida = () => {
@@ -352,7 +358,12 @@ const AppProvider = ({ children }) => {
       activeColor,
       setActiveColor,
       mostrarMenuIngredientes,
-      setMostrarMenuIngredientes
+      setMostrarMenuIngredientes,
+      openSnackbar,
+      setOpenSnackbar,
+      snackbarMessage,
+      setSnackbarMessage,
+      handleSnackbarClose
     }}>
       {children}
     </AppContext.Provider>

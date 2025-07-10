@@ -1,11 +1,13 @@
-import { Stack, Box } from '@mui/material'
+import { Stack, Box, Button, Snackbar } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import { useState, useEffect } from 'react'
 import Ingrediente from './Ingrediente'
+import { BsSearch } from "react-icons/bs"
 
 const IngredientesMenu = () => {
 
-  const { data } = useGlobalContext()
+  const { data, activeColor, setComidaOIngrediente, setDisplay, openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage, handleSnackbarClose } = useGlobalContext()
+
   const [search, setSearch] = useState('')
   const [results, setResults] = useState([])
   const [showDropdown, setShowDropdown] = useState(false)
@@ -61,21 +63,52 @@ const IngredientesMenu = () => {
       }     
     }
   }, [search])  
+  
+  
+  const fetchData = async (search) => {
+
+    if(!search){
+      setSnackbarMessage('Introduce el nombre del ingrediente para buscar en OpenFoodFacts')
+      setOpenSnackbar(true)
+      return
+    } 
+
+    try {
+      const response = await fetch(`https://es.openfoodfacts.net/api/v2/search?categories_tags=${search}`)
+      const data = await response.json()
+
+      const products = data.products
+        let productInfo = []
+        for(let i = 0; i < data.products.length; i++) {
+          const { brands, product_name, image_thumb_url, nutriments, generic_name_es } = products[i]
+          productInfo.push({brands, product_name, generic_name_es, image_thumb_url, nutriments, generic_name_es})
+        }
+      console.log(products)
+      console.log(productInfo)
+    } catch(err) {
+        console.error(err)
+    }
+  }
+  
+
 
   return (
     <Stack justifyContent= 'space-between' alignItems='center' sx={{
       width: '100%',
       backgroundColor: 'white',
       padding: '25px',
-      textAlign: 'center',
-      maxHeight: {lg: '900px', sm: '450px', xs: '400px'},
-      overflow: 'hidden'
+      textAlign: 'center'
     }}>
       <Box width='242px' position='relative' margin='0 auto'>
         <input style={{padding: '20px 10px', fontSize: '1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
         {renderDropdown()}
       </Box>
       <Ingrediente search={search}/>
+      <Stack direction='row' justifyContent='center' gap='20px' mt='25px'>
+        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => fetchData(search)}><BsSearch style={{marginRight: '8px'}}/> Buscar en OpenFoodFacts</Button>
+        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('crearIngrediente'); setDisplay();}}>+ crear nuevo ingrediente</Button>
+      </Stack>
+      <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackbar} onClose={handleSnackbarClose} message={snackbarMessage} />
     </Stack>
   )
 }

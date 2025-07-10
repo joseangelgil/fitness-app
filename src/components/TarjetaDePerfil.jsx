@@ -4,14 +4,11 @@ import { useState, useEffect } from 'react'
 
 const TarjetaDePerfil = () => {
 
-  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor, esNuevoPerfil, setEsNuevoPerfil, perfiles, setPerfiles, setPerfilActivo, setEsPerfilGuardado } = useGlobalContext()
+  const { perfilActivo, cantidadObjetivo, setCantidadObjetivo, activeColor, setActiveColor, esNuevoPerfil, setEsNuevoPerfil, perfiles, setPerfiles, setPerfilActivo, setEsPerfilGuardado, openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage, handleSnackbarClose } = useGlobalContext()
 
   const [datosDePerfil, setDatosDePerfil] = useState(JSON.parse(localStorage.getItem(`${perfilActivo}-datos`)) || {nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
   const [errores, setErrores] = useState({nombre: '', peso: '', altura: '', edad: '', sexo: '', actividad: '', proteinas: '', grasas: ''})
   const [datosValidos, setDatosValidos] = useState(true)
-  const [openSnackbar, setOpenSnackbar] = useState(true)
-  const [snackbarMessage, setSnackbarMessage] = useState('Hay campos vacíos o con errores')
-
 
   // Modificar datos de perfil y controlar errores en campo
   const modificarCampo = (e, campo, min, max) => {
@@ -75,6 +72,7 @@ const TarjetaDePerfil = () => {
 
     if(!sonDatosValidos(peso, altura, edad, sexo, actividad, proteinas, grasas)) {
       setSnackbarMessage('Hay campos vacíos o con errores')
+      setOpenSnackbar(true)
       setDatosValidos(false)
       setTimeout(() => setOpenSnackbar(true), 100)
       return
@@ -181,10 +179,6 @@ const TarjetaDePerfil = () => {
       setPerfilActivo('')
     }
   }  
-
-  const handleSnackbarClose = () => {
-    setOpenSnackbar(false)
-  }
 
   // const unirNombreConEspacios = (nombre) => {
   //   return (nombre.replace(/\s/g, '\u00A0'))
