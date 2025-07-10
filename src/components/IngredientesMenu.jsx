@@ -1,6 +1,6 @@
 import { Stack, Box, Button, Snackbar } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Ingrediente from './Ingrediente'
 import { BsSearch } from "react-icons/bs"
 
@@ -11,6 +11,15 @@ const IngredientesMenu = () => {
   const [search, setSearch] = useState('')
   const [results, setResults] = useState([])
   const [showDropdown, setShowDropdown] = useState(false)
+
+  const uniqueResults = useMemo(() => {
+    const noRepetidos = new Set();
+    return results.filter(item => {
+      if(noRepetidos.has(item.name)) return false;
+      noRepetidos.add(item.name);
+      return true;
+    });
+  }, [results]);
 
   const renderDropdown = () => {
     return (
@@ -32,7 +41,7 @@ const IngredientesMenu = () => {
         overflowY: 'auto',
         margin: 0
       }}>
-        {results.map(item => {
+        {uniqueResults.map(item => {
           return (
             <li key={item.id} style={{margin: '5px', listStyle: 'none'}} onClick={() => {setSearch(item.name); setShowDropdown(false)}}>{item.name}</li>
           )
@@ -89,7 +98,6 @@ const IngredientesMenu = () => {
         console.error(err)
     }
   }
-  
 
 
   return (
