@@ -6,7 +6,7 @@ import { useGlobalContext } from '../utils/context'
 
 function Home() {
 
-  const { setPerfilActivo, setActiveColor, setEsNuevoPerfil, perfiles, setCantidadObjetivo, setMenu, setEsPerfilGuardado } = useGlobalContext()
+  const { setPerfilActivo, setActiveColor, setEsNuevoPerfil, perfiles, setCantidadObjetivo, setMenu, setEsPerfilGuardado, activeColor } = useGlobalContext()
 
   const crearNuevoPerfil = () => {
     setPerfilActivo('')
@@ -38,7 +38,11 @@ function Home() {
           <Typography variant='p' sx={{fontSize: {xs: '1.8rem', md: '2.4rem', lg: '3rem'}}}>Selecciona tu perfil:</Typography>   
           <ul>
             {perfiles.map(perfil => {
-              return (<li key={perfil} onClick={() => {setPerfilActivo(perfil); setEsNuevoPerfil(false); setEsPerfilGuardado(true)}}><Link className='link' to='/profile' style={{color: '#EB5D45'}}>{perfil}</Link></li>)
+              return (
+              <li key={perfil} onClick={() => {setPerfilActivo(perfil); setEsNuevoPerfil(false); setEsPerfilGuardado(true)}}>
+                <Link className='link' to='/profile' style={{color: `${JSON.parse(localStorage.getItem(`${perfil}-color`)).oscuro}`, opacity: '0.9'}}>{perfil}</Link>
+              </li>
+              )
             })}
           </ul>
           <Typography variant='p' sx={{fontSize: {xs: '1.8rem', md: '2.4rem', lg: '3rem'}}}>o</Typography>
