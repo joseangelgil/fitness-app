@@ -125,10 +125,10 @@ const AppProvider = ({ children }) => {
     return macrosTotales
   }
 
-  const añadirIngrediente = (comida, name, cantidad, kcal, hc, p, g) => {
+  const añadirIngrediente = (comida, id, name, cantidad, kcal, hc, p, g) => {
 
     const nuevoIngrediente = {
-      id: uuidv4(), 
+      id: `${comidaSeleccionada}-${id}`, 
       name: name, 
       cantidad: cantidad, 
       kcal: Number((cantidad * kcal/100).toFixed(1)), 

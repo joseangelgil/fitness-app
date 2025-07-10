@@ -4,11 +4,17 @@ import Icon from '../assets/icon2.png'
 
 const Ingrediente = ({ search }) => {
 
-  const { data, setIngredienteSeleccionado, setDisplay, setComidaOIngrediente, activeColor } = useGlobalContext()
+  const { data, menu, activeWeekDay, setOpenSnackbar, setSnackbarMessage, setIngredienteSeleccionado, setDisplay, setComidaOIngrediente, activeColor, comidaSeleccionada } = useGlobalContext()
 
-  const handleIngredientClick = (id) => {
-    setComidaOIngrediente('nuevoIngrediente'); 
+  const handleIngredientClick = (id) => {     
+
+    if(menu[activeWeekDay].find(comida => comida.id === comidaSeleccionada).ingredientes.find(ingrediente => ingrediente.id === `${comidaSeleccionada}-${id}`)){
+      setSnackbarMessage('El ingrediente ya esta en el menu. Pincha sobre el para modificar la cantidad')
+      setTimeout(() => setOpenSnackbar(true), 100)
+      return
+    }
     setIngredienteSeleccionado(id)
+    setComidaOIngrediente('nuevoIngrediente'); 
     setDisplay();
   }
 

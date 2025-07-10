@@ -7,16 +7,15 @@ const TarjetaNuevoIngrediente = () => {
 
   let macros;
   
-  data.forEach(ingrediente => {
-    if(ingrediente.id === ingredienteSeleccionado) {
-      macros = {
-        kcal: data.find(item => item.name === ingrediente.name).kcal,
-        hc: data.find(item => item.name === ingrediente.name).hc,
-        p: data.find(item => item.name === ingrediente.name).p,
-        g: data.find(item => item.name === ingrediente.name).g
-      }
+  const ingredienteData = data.find(item => item.id === ingredienteSeleccionado)
+  if (ingredienteData) {
+    macros = {
+      kcal: ingredienteData.kcal,
+      hc: ingredienteData.hc,
+      p: ingredienteData.p,
+      g: ingredienteData.g
     }
-  })
+  }
 
   const desplegarInfoIngrediente = () => {
     let nombre = ''
@@ -57,7 +56,7 @@ const TarjetaNuevoIngrediente = () => {
             alert('Por favor, introduce una cantidad para continuar.'); 
             return
           }  
-          añadirIngrediente(comidaSeleccionada, desplegarInfoIngrediente(), cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
+          añadirIngrediente(comidaSeleccionada, ingredienteSeleccionado, desplegarInfoIngrediente(), cantidadNuevoIngrediente, macros.kcal, macros.hc, macros.p, macros.g); 
           setDisplay();
           }}>Aceptar</Button>
       </Stack>

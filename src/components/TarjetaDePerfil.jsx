@@ -72,7 +72,6 @@ const TarjetaDePerfil = () => {
 
     if(!sonDatosValidos(peso, altura, edad, sexo, actividad, proteinas, grasas)) {
       setSnackbarMessage('Hay campos vacíos o con errores')
-      setOpenSnackbar(true)
       setDatosValidos(false)
       setTimeout(() => setOpenSnackbar(true), 100)
       return

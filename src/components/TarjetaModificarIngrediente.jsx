@@ -6,21 +6,16 @@ const TarjetaModificarIngrediente = () => {
   const { menu, activeWeekDay, modificarIngrediente, setDisplay, cantidadNuevoIngrediente, setCantidadNuevoIngrediente, comidaSeleccionada, ingredienteSeleccionado, quitarIngrediente, data } = useGlobalContext()
 
   let macros = {}
-  
-  menu[activeWeekDay].forEach(item => {
-    if(item.id === comidaSeleccionada) {
-      item.ingredientes.forEach(ingrediente => {
-        if(ingrediente.id === ingredienteSeleccionado) {
-          macros = {
-            kcal: data.find(item => item.name === ingrediente.name).kcal,
-            hc: data.find(item => item.name === ingrediente.name).hc,
-            p: data.find(item => item.name === ingrediente.name).p,
-            g: data.find(item => item.name === ingrediente.name).g
-          }
-        } 
-      })
+
+  const ingredienteData = data.find(item => `${comidaSeleccionada}-${item.id}` === ingredienteSeleccionado)
+  if (ingredienteData) {
+    macros = {
+      kcal: ingredienteData.kcal,
+      hc: ingredienteData.hc,
+      p: ingredienteData.p,
+      g: ingredienteData.g
     }
-  })
+  }
 
   const desplegarInfoIngrediente = () => {
     let nombre = ''
