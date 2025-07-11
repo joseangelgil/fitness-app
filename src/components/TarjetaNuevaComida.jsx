@@ -1,5 +1,5 @@
 import { Stack, Typography, Button } from '@mui/material'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 
 const TarjetaNuevaComida = () => {
 

@@ -1,5 +1,5 @@
 import { Box, Typography, Stack, Button } from "@mui/material"
-import { useGlobalContext } from "../utils/context"
+import { useGlobalContext } from "../context"
 import PlantillaIngrediente from "./PlantillaIngrediente"
 import { InfinitySpin } from "react-loader-spinner"
 

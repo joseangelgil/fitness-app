@@ -1,5 +1,5 @@
 import { Stack, Button, Typography } from '@mui/material'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 import IngredientesMenu from './IngredientesMenu'
 
 const DietTable = ({ comidaId, name, time, ingredientes, macros }) => {

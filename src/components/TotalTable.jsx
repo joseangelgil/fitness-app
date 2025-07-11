@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 
 const TotalTable = () => {
 

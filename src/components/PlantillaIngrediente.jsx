@@ -1,5 +1,5 @@
 import { Stack, Typography } from '@mui/material'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 import Icon from '../assets/icon2.png'
 
 const PlantillaIngrediente = ({name, author, id, kcal, hc, p, g, image}) => {

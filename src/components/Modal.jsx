@@ -5,7 +5,7 @@ import TarjetaNuevoIngrediente from './TarjetaNuevoIngrediente'
 import TarjetaModificarIngrediente from './TarjetaModificarIngrediente'
 import TarjetaCrearIngrediente from './TarjetaCrearIngrediente'
 import MenuBuscarIngrediente from './MenuBuscarIngrediente'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 
 const Modal = () => {
 

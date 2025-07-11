@@ -1,5 +1,5 @@
 import { Stack, Box, Button, Snackbar } from '@mui/material'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 import { useState, useEffect, useMemo } from 'react'
 import Ingredientes from './Ingredientes'
 import { BsSearch } from "react-icons/bs"

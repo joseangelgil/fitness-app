@@ -1,5 +1,5 @@
 import { Box, Stack, Typography, Button, Snackbar } from '@mui/material'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 import { useState, useEffect } from 'react'
 
 const TarjetaDePerfil = () => {

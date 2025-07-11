@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { Stack, Button } from '@mui/material'
 import Icon from '../assets/icon2.png'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 
 function Navbar() {
 

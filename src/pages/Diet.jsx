@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar'
 import DietTable from '../components/DietTable'
 import { Box, Button, Typography, Stack } from '@mui/material'
-import { useGlobalContext } from '../utils/context'
+import { useGlobalContext } from '../context'
 import Modal from '../components/Modal'
 import TotalTable from '../components/TotalTable'
 
