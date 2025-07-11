@@ -14,7 +14,8 @@ const AppProvider = ({ children }) => {
     {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Melon', kcal: '56', hc: '0', p: '7', g: '15'},
     {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Queso', kcal: '210', hc: '2', p: '15', g: '18'},
     {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Tomate', kcal: '56', hc: '0', p: '7', g: '15'},    
-  ])
+  ])  
+  const [openFoodFactsData, setOpenFoodFactsData] = useState([])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
   const [activeColor, setActiveColor] = useState({name: 'primary', oscuro: '#1976D2', claro: '#ADD8E6', suave: '#D6ECFA'})  
   const [perfiles, setPerfiles] = useState(JSON.parse(localStorage.getItem('perfiles')) || [])
@@ -235,28 +236,6 @@ const AppProvider = ({ children }) => {
     })
   }, [])
 
-  // useEffect(() => {
-  //   let isMounted = true
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch('https://es.openfoodfacts.net/api/v2/search?categories_tags=pollo')
-  //       const data = await response.json()
-
-  //       const products = data.products
-  //         let productInfo = []
-  //         for(let i = 0; i < data.products.length; i++) {
-  //           const { brands, product_name, image_thumb_url, nutriments, generic_name_es } = products[i]
-  //           productInfo.push({brands, product_name, generic_name_es, image_thumb_url, nutriments, generic_name_es})
-  //         }
-  //       if(isMounted) console.log(productInfo)
-  //     } catch(err) {
-  //         console.error(err)
-  //     }
-  //   }
-  //   fetchData()
-  //   return () => (isMounted = false)
-  // }, [])
-
 
   // Al cambiar el menu o el dia activo, calcular la suma total de macros
   useEffect(() => {
@@ -300,6 +279,7 @@ const AppProvider = ({ children }) => {
     setMenu(JSON.parse(localStorage.getItem(`${perfilActivo}-menu`)) || {'Lunes': [], 'Martes': [], 'Miercoles': [], 'Jueves': [], 'Viernes': [], 'Sabado': [], 'Domingo': []})
     setActiveColor(JSON.parse(localStorage.getItem(`${perfilActivo}-color`)) || {name: 'primary', oscuro: '#1976d2', claro: '#ADD8E6', suave: '#D6ECFA'})
     setCantidadObjetivo(JSON.parse(localStorage.getItem(`${perfilActivo}-cantidad`)) || {kcal: 0, hc: 0, p: 0, g: 0})
+    setData(JSON.parse(localStorage.getItem('data')))
   }, [perfilActivo])
 
   useEffect(() => {
@@ -363,7 +343,9 @@ const AppProvider = ({ children }) => {
       setOpenSnackbar,
       snackbarMessage,
       setSnackbarMessage,
-      handleSnackbarClose
+      handleSnackbarClose,
+      openFoodFactsData,
+      setOpenFoodFactsData
     }}>
       {children}
     </AppContext.Provider>

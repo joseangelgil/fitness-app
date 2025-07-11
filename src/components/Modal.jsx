@@ -4,6 +4,7 @@ import TarjetaModificarComida from './TarjetaModificarComida'
 import TarjetaNuevoIngrediente from './TarjetaNuevoIngrediente'
 import TarjetaModificarIngrediente from './TarjetaModificarIngrediente'
 import TarjetaCrearIngrediente from './TarjetaCrearIngrediente'
+import MenuBuscarIngrediente from './MenuBuscarIngrediente'
 import { useGlobalContext } from '../utils/context'
 
 const Modal = () => {
@@ -26,6 +27,7 @@ const Modal = () => {
           {comidaOIngrediente === 'nuevoIngrediente' && <TarjetaNuevoIngrediente />}
           {comidaOIngrediente === 'modificarIngrediente' && <TarjetaModificarIngrediente />}
           {comidaOIngrediente === 'crearIngrediente' && <TarjetaCrearIngrediente />}
+          {comidaOIngrediente === 'buscarIngrediente' && <MenuBuscarIngrediente />}
         </Box>
   )
 }

@@ -1,12 +1,12 @@
 import { Stack, Box, Button, Snackbar } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import { useState, useEffect, useMemo } from 'react'
-import Ingrediente from './Ingrediente'
+import Ingredientes from './Ingredientes'
 import { BsSearch } from "react-icons/bs"
 
 const IngredientesMenu = () => {
 
-  const { data, activeColor, setComidaOIngrediente, setDisplay, openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage, handleSnackbarClose } = useGlobalContext()
+  const { data, activeColor, setComidaOIngrediente, setDisplay, openSnackbar, setOpenSnackbar, snackbarMessage, setSnackbarMessage, handleSnackbarClose, setOpenFoodFactsData } = useGlobalContext()
 
   const [search, setSearch] = useState('')
   const [results, setResults] = useState([])
@@ -87,13 +87,13 @@ const IngredientesMenu = () => {
       const data = await response.json()
 
       const products = data.products
-        let productInfo = []
-        for(let i = 0; i < data.products.length; i++) {
-          const { brands, product_name, image_thumb_url, nutriments, generic_name_es } = products[i]
-          productInfo.push({brands, product_name, generic_name_es, image_thumb_url, nutriments, generic_name_es})
-        }
-      console.log(products)
-      console.log(productInfo)
+      products.map(product => {
+        setOpenFoodFactsData(prevData => (
+          [...prevData, 
+            {id: product.id, author: 'OpenFoodFacts', url: product.image_thumb_url, name: product.product_name, kcal: product.nutriments['energy-kcal_100g'], hc: product.nutriments.carbohydrates_100g, p: product.nutriments.proteins_100g, g: product.nutriments.fat_100g}
+          ]
+        ))
+      })
     } catch(err) {
         console.error(err)
     }
@@ -111,9 +111,9 @@ const IngredientesMenu = () => {
         <input style={{padding: '20px 10px', fontSize: '1rem', height:'55px'}} type="text" min='0' placeholder='Buscar ingrediente' value={search} onChange={(e) => setSearch(e.target.value)}/>
         {renderDropdown()}
       </Box>
-      <Ingrediente search={search}/>
+      <Ingredientes search={search}/>
       <Stack direction='row' justifyContent='center' gap='20px' mt='25px'>
-        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => fetchData(search)}><BsSearch style={{marginRight: '8px'}}/> Buscar en OpenFoodFacts</Button>
+        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('buscarIngrediente'); setDisplay(); fetchData(search)}}><BsSearch style={{marginRight: '8px'}}/> Buscar en OpenFoodFacts</Button>
         <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('crearIngrediente'); setDisplay();}}>+ crear nuevo ingrediente</Button>
       </Stack>
       <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackbar} onClose={handleSnackbarClose} message={snackbarMessage} />
