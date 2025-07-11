@@ -75,13 +75,6 @@ const IngredientesMenu = () => {
   
   
   const fetchData = async (search) => {
-
-    if(!search){
-      setSnackbarMessage('Introduce el nombre del ingrediente para buscar en OpenFoodFacts')
-      setOpenSnackbar(true)
-      return
-    } 
-
     try {
       const response = await fetch(`https://es.openfoodfacts.net/api/v2/search?categories_tags=${search}`)
       const data = await response.json()
@@ -111,8 +104,20 @@ const IngredientesMenu = () => {
       </Box>
       <Ingredientes search={search}/>
       <Stack direction='row' justifyContent='center' gap='20px' mt='25px'>
-        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('buscarIngrediente'); setDisplay(); fetchData(search)}}><BsSearch style={{marginRight: '8px'}}/> Buscar en OpenFoodFacts</Button>
-        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('crearIngrediente'); setDisplay();}}>+ crear nuevo ingrediente</Button>
+        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {
+            if(!search){
+              setSnackbarMessage('Introduce el nombre del ingrediente para buscar en OpenFoodFacts')
+              setTimeout(() => setOpenSnackbar(true), 100)
+              return
+            }           
+            setComidaOIngrediente('buscarIngrediente'); 
+            setDisplay(); 
+            fetchData(search)          
+          }}><BsSearch style={{marginRight: '8px'}}/> Buscar en OpenFoodFacts</Button>
+        <Button variant="outlined" color={activeColor.name} sx={{padding:'15px', fontSize: { lg: '1.1rem', sm: '0.90rem', xs: '0.7rem'}}} onClick={() => {
+            setComidaOIngrediente('crearIngrediente'); 
+            setDisplay();
+          }}>+ crear nuevo ingrediente</Button>
       </Stack>
       <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={openSnackbar} onClose={handleSnackbarClose} message={snackbarMessage} />
     </Stack>
