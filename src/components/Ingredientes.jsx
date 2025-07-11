@@ -13,14 +13,14 @@ const Ingredientes = ({ search }) => {
         data.filter(item => item.name.toLowerCase().includes(search.toLowerCase().trim())).length ?
           data.filter(item => item.name.toLowerCase().includes(search.toLowerCase().trim())).map(item => {
               return (
-                <PlantillaIngrediente key={item.id} name={item.name} author={item.author} id={item.id} kcal={item.kcal} hc={item.hc} p={item.p} g={item.g} url={item.url}/>
+                <PlantillaIngrediente key={item.id} name={item.name} author={item.author} id={item.id} kcal={item.kcal} hc={item.hc} p={item.p} g={item.g} image={item.image}/>
               )
           }) :             
           <Typography variant="p" sx={{fontSize: { lg: '1.1rem', sm:'0.95rem', xs: '0.8rem'}, textTransform: 'uppercase'}}>No hay coincidencias entre los ingredientes guardados</Typography>
         ) :      
         data.map(item => {
           return (
-            <PlantillaIngrediente key={item.id} name={item.name} author={item.author} id={item.id} kcal={item.kcal} hc={item.hc} p={item.p} g={item.g} url={item.url}/>
+            <PlantillaIngrediente key={item.id} name={item.name} author={item.author} id={item.id} kcal={item.kcal} hc={item.hc} p={item.p} g={item.g} image={item.image}/>
           )
         })}
     </Stack>

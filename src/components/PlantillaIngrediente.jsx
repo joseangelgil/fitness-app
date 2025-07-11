@@ -2,14 +2,14 @@ import { Stack, Typography } from '@mui/material'
 import { useGlobalContext } from '../utils/context'
 import Icon from '../assets/icon2.png'
 
-const PlantillaIngrediente = ({name, author, id, kcal, hc, p, g, url}) => {
+const PlantillaIngrediente = ({name, author, id, kcal, hc, p, g, image}) => {
 
   const { activeColor, menu, activeWeekDay, comidaSeleccionada, setIngredienteSeleccionado, setComidaOIngrediente, setDisplay, setSnackbarMessage, setOpenSnackbar, data, setData, setOpenFoodFactsData } = useGlobalContext()
 
   const handleIngredientClick = (id) => {    
 
     if(!data.find(item => item.id === id)) {      
-      setData(prevData => ([...prevData, {id: id, author: author, url: url, name: name, kcal: kcal, hc: hc, p: p, g: g}]))
+      setData(prevData => ([...prevData, {id: id, author: author, image: image, name: name, kcal: kcal, hc: hc, p: p, g: g}]))
       setDisplay();
       setOpenFoodFactsData([]);
 
@@ -44,7 +44,7 @@ const PlantillaIngrediente = ({name, author, id, kcal, hc, p, g, url}) => {
       }} 
       onClick={() => handleIngredientClick(id)}>
       <Typography variant='p' sx={{position: 'absolute', top: '5px', right: '5px', fontSize: {lg: '0.9rem', md:'0.8rem', xs: '0.7rem'}, color: 'gray'}}>{author}</Typography>
-      <img src={url ? url : Icon} alt="img" width='120px' height='120px' style={{borderRadius: '15px', marginTop: '12px', marginBottom: '-5px'}}/>
+      <img src={image ? image : Icon} alt="img" width='120px' height='120px' style={{borderRadius: '15px', marginTop: '12px', marginBottom: '-5px'}}/>
       <Typography variant="h6" sx={{fontSize: { lg: '1.4rem', sm: '1.2rem', xs: '1rem'}}}>{name}</Typography>
       <Typography variant='p'>Macronutrientes por 100g</Typography>
       <Typography variant='p'>{kcal} Kcal</Typography>

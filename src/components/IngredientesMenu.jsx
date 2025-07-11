@@ -85,12 +85,11 @@ const IngredientesMenu = () => {
     try {
       const response = await fetch(`https://es.openfoodfacts.net/api/v2/search?categories_tags=${search}`)
       const data = await response.json()
-
       const products = data.products
       products.map(product => {
         setOpenFoodFactsData(prevData => (
           [...prevData, 
-            {id: product.id, author: 'OpenFoodFacts', url: product.image_thumb_url, name: product.product_name, kcal: product.nutriments['energy-kcal_100g'], hc: product.nutriments.carbohydrates_100g, p: product.nutriments.proteins_100g, g: product.nutriments.fat_100g}
+            {id: product.id, author: 'OpenFoodFacts', image: product.image_thumb_url, name: product.product_name, kcal: product.nutriments['energy-kcal_100g'], hc: product.nutriments.carbohydrates_100g, p: product.nutriments.proteins_100g, g: product.nutriments.fat_100g}
           ]
         ))
       })
@@ -98,7 +97,6 @@ const IngredientesMenu = () => {
         console.error(err)
     }
   }
-
 
   return (
     <Stack justifyContent= 'space-between' alignItems='center' sx={{

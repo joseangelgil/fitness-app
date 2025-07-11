@@ -7,7 +7,7 @@ const TarjetaCrearIngrediente = () => {
 
   const {setData, setDisplay, perfilActivo } = useGlobalContext()
 
-  const [nuevoIngrediente, setNuevoIngrediente] = useState({id: uuidv4(), author: `${perfilActivo}`, url: '', name: '', kcal: '', hc: '', p: '', g: ''})
+  const [nuevoIngrediente, setNuevoIngrediente] = useState({id: uuidv4(), author: `${perfilActivo}`, image: '', name: '', kcal: '', hc: '', p: '', g: ''})
 
   return (
     <Stack justifyContent= 'space-between' alignItems='center' sx={{

@@ -6,14 +6,14 @@ const AppContext = createContext()
 const AppProvider = ({ children }) => {
 
   const [data, setData] = useState(JSON.parse(localStorage.getItem('data')) || [
-    {id: uuidv4(), author: 'FitnessApp', url:'https://images.openfoodfacts.net/images/products/848/000/056/6614/front_es.34.100.jpg', name: 'Arroz', kcal: '56', hc: '0', p: '7', g: '15'},
-    {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Bacon', kcal: '250', hc: '0', p: '12', g: '22'},
-    {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Espaguetis', kcal: '120', hc: '50', p: '7', g: '11'},
-    {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Huevo', kcal: '56', hc: '0', p: '7', g: '15'},
-    {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
-    {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Melon', kcal: '56', hc: '0', p: '7', g: '15'},
-    {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Queso', kcal: '210', hc: '2', p: '15', g: '18'},
-    {id: uuidv4(), author: 'FitnessApp', url:'', name: 'Tomate', kcal: '56', hc: '0', p: '7', g: '15'},    
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Arroz', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Bacon', kcal: '250', hc: '0', p: '12', g: '22'},
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Espaguetis', kcal: '120', hc: '50', p: '7', g: '11'},
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Huevo', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Melocoton', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Melon', kcal: '56', hc: '0', p: '7', g: '15'},
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Queso', kcal: '210', hc: '2', p: '15', g: '18'},
+    {id: uuidv4(), author: 'FitnessApp', image:'', name: 'Tomate', kcal: '56', hc: '0', p: '7', g: '15'},    
   ])  
   const [openFoodFactsData, setOpenFoodFactsData] = useState([])
   const [activeWeekDay, setActiveWeekDay] = useState('Lunes')
