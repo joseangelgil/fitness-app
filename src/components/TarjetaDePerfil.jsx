@@ -107,7 +107,7 @@ const TarjetaDePerfil = () => {
         setActiveColor({name: 'error', oscuro: '#D32F2F', claro: '#FFB6C1', suave: '#FFD9E1'})
         break
       case 'success':
-        setActiveColor({name: 'success', oscuro: '#2E7D32', claro: '#A8E6A3', suave: '#D0F4DE'})
+        setActiveColor({name: 'success', oscuro: '#2E7D32', claro: '#A8E6A3', suave: '#C7F5CC'})
         break
       case 'warning':
         setActiveColor({name: 'warning', oscuro: '#ED6C02', claro: '#FFE7A3', suave: '#FFF7C2'})
