@@ -6,7 +6,7 @@ import AppProvider from './context.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>   
+    <BrowserRouter basename="/fitness-app">   
       <AppProvider>
         <App />
       </AppProvider>
