@@ -2,10 +2,21 @@ import { Box, Typography, Stack, Button } from "@mui/material"
 import { useGlobalContext } from "../context"
 import PlantillaIngrediente from "./PlantillaIngrediente"
 import { InfinitySpin } from "react-loader-spinner"
+import { useState, useEffect } from 'react'
 
 const MenuBuscarIngrediente = () => {
 
-  const { openFoodFactsData, setOpenFoodFactsData, setDisplay, activeColor } = useGlobalContext()
+  const { openFoodFactsData, setOpenFoodFactsData, setDisplay, activeColor, modal } = useGlobalContext()
+
+  const [showNoResults, setShowNoResults] = useState(false)
+
+  useEffect(() => {
+    if(!openFoodFactsData.length && modal === 'block') {
+      const timer = setTimeout(() => setShowNoResults(true), 5000)
+      return () => clearTimeout(timer)
+    }
+    return setShowNoResults(false)
+  }, [openFoodFactsData, modal])
 
   return (
     <Box sx={{position: 'fixed', width: '95vw', height: '90vh', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', borderRadius: '25px', overflow: 'hidden',
@@ -18,7 +29,7 @@ const MenuBuscarIngrediente = () => {
         </Stack>
         <hr style={{margin: '5px 0', border: `1px solid ${activeColor.oscuro}`}}/>
       </Box>      
-      <Stack direction='row' flexWrap='wrap' gap='40px'  justifyContent='center' sx={{flex: '1', padding: '30px', overflowY: 'auto'}}>
+      <Stack direction='row' flexWrap='wrap' gap='40px' justifyContent='center' sx={{flex: '1', padding: '30px', overflowY: 'auto', overflowX:'hidden'}}>
         {openFoodFactsData.length ? 
           openFoodFactsData.map(item => {
             if(item.name && item.kcal && item.hc && item.p && item.g){            
@@ -27,8 +38,8 @@ const MenuBuscarIngrediente = () => {
               )
             }
           }) :
-          <Stack height='100%' width='100%' justifyContent='center' alignItems='center' sx={{ transform: {lg: 'scale(2)', md: 'scale(1.5)', xs: 'scale(1)'}}}>
-            <InfinitySpin width="200" color={activeColor.oscuro}/>
+          <Stack height='68%' width='100%' justifyContent='center' alignItems='center' sx={{transform: {lg: 'scale(2)', md: 'scale(1.5)', xs: 'scale(1)'}}}>
+            {showNoResults ? <Typography textAlign='center'>NO HAY RESULTADOS QUE COINCIDAN CON LA BÚSQUEDA</Typography> : <InfinitySpin width="200" color={activeColor.oscuro}/>}
           </Stack>
         }
       </Stack>
