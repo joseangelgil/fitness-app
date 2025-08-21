@@ -9,7 +9,7 @@ const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado',
 
 function Diet() {
 
-  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo, setMostrarMenuIngredientes } = useGlobalContext()
+  const { setDisplay, setComidaOIngrediente, menu, changeActiveButton, chooseVariant, activeWeekDay, activeColor, perfilActivo, setMostrarMenuIngredientes, setNombreNuevaComida, setHoraNuevaComida } = useGlobalContext()
 
   return(
     <Box style={{padding: '10px', minHeight: '100vh'}}>
@@ -25,7 +25,7 @@ function Diet() {
           )
         })}
         <Stack direction='row' alignItems='center' justifyContent='space-between'>
-          <Button variant='text' color={activeColor.name} sx={{mt: '15px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}} onClick={() => {setComidaOIngrediente('nuevaComida'); setDisplay();}}>+ Añadir comida</Button>
+          <Button variant='text' color={activeColor.name} sx={{mt: '15px', fontSize: { lg: '1.1rem', sm: '0.9rem', xs: '0.7rem'}}} onClick={() => {setNombreNuevaComida(''); setHoraNuevaComida(''); setComidaOIngrediente('nuevaComida'); setDisplay();}}>+ Añadir comida</Button>
           <Typography variant='p' color={activeColor.name} sx={{fontSize: { lg: '1.1rem', xs: '0.9rem'}, mt: '12px'}}>Perfil - {perfilActivo}</Typography>
         </Stack>
         {menu[activeWeekDay].map(comida => {
