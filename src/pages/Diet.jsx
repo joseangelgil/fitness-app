@@ -4,6 +4,7 @@ import { Box, Button, Typography, Stack } from '@mui/material'
 import { useGlobalContext } from '../context'
 import Modal from '../components/Modal'
 import TotalTable from '../components/TotalTable'
+import MacrosGraph from '../components/MacrosGraph'
 
 const weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo']
 
@@ -35,6 +36,7 @@ function Diet() {
           }
         )}        
         <TotalTable />
+        <MacrosGraph />
       </Box>
       <Modal />
     </Box>
