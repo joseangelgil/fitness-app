@@ -4,7 +4,7 @@ import { useGlobalContext } from '../context'
 
 const MacrosGraph = () => {
 
-  const { cantidadObjetivo, sumaDiariaTotal, activeWeekDay } = useGlobalContext()
+  const { cantidadObjetivo, sumaDiariaTotal, activeWeekDay} = useGlobalContext()
 
   let hcPercentage = Number((sumaDiariaTotal[activeWeekDay].hc / cantidadObjetivo.hc * 100) || 0).toFixed(0)
   let pPercentage = Number((sumaDiariaTotal[activeWeekDay].p / cantidadObjetivo.p * 100) || 0).toFixed(0)
@@ -15,10 +15,10 @@ const MacrosGraph = () => {
   if(gPercentage > 100) gPercentage = 100
 
   return (
-    <Box width='100%' my={5}>
-      <Typography variant='h5' textAlign='center' textTransform='capitalize'>Cantidad de Macros cubierta según objetivo</Typography>
+    <Box width='100%' my={5} py={3} border={'1px solid #444'} borderRadius='25px'>
+      <Typography variant='h6' textAlign='center' textTransform='capitalize' mb='20px' sx={{ fontSize: { lg: '1.4rem', sm: '1.2rem', xs: '1rem'}}}>Cantidad de Macros cubierta según objetivo</Typography>
       <MacrosPercentageBar 
-        text='Hidratos de Carbono' 
+        text='Hidratos' 
         darkColor='#FBC02D' 
         lightColor='#FFF9C4'
         percentage={hcPercentage}>
